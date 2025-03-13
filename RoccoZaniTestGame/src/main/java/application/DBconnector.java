@@ -1,0 +1,23 @@
+package application;
+
+import java.sql.*;
+
+public class DBconnector {
+	private static String URL = "jdbc:mysql://localhost:3306";
+	private static String database = "ZaniTestGame";
+	private static String user = "root";
+	private static String password = "";
+
+	public static ResultSet executeSQL(String query){
+		try (Connection con = DriverManager.getConnection( URL+"/"+database, user, password); Statement stat = con.createStatement()){
+
+	        try(ResultSet result = stat.executeQuery(query);){
+	        	return result;
+	        }
+	    }
+	    catch (SQLException exception) {
+	        System.out.println("Errore!"+exception.getMessage());
+	    }
+		return null;
+	}
+}
