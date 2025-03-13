@@ -1,8 +1,7 @@
-package application;
-
+package DBmanager;
 import java.sql.*;
 
-public class DBconnector {
+public class DBmanager {
 	private static String URL = "jdbc:mysql://localhost:3306";
 	private static String database = "ZaniTestGame";
 	private static String user = "root";
@@ -20,4 +19,6 @@ public class DBconnector {
 	    }
 		return null;
 	}
+	
+	
 }
