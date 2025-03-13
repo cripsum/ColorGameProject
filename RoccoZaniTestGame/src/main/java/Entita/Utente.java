@@ -3,10 +3,24 @@ package Entita;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 import DBmanager.DBmanager;
 
 public class Utente {
+	private String id;
+	private String username;
+	private String password;
+	private String tipo;
+	private String email;
+	private LocalDateTime dataNascita;
+	private LocalDateTime dataRegistrazione;
+	
+	
+	
+	
+	
+	
 	public static int isUser(String username, String password) throws SQLException, NoSuchAlgorithmException {
 		int exists = 0;
 		String sqlQuery = "SELECT * FROM user WHERE username =" + "'" + username + "'";

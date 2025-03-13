@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -23,11 +22,10 @@ public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String message = null; //messaggio da inviare in risposta al client
+		String message = null; //risposta al client
 		int exists = 0; //variabile di controllo per la verifica dell'esistenza dell'utente
 		HttpSession session = null; //parametro di sessione
 		
-		//recupera i parametri inviati dal client
 		String username = request.getParameter(USER); 
 		String password = request.getParameter(PASSWORD);
 		
@@ -38,10 +36,9 @@ public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi
 			message = ERRORE_LOGIN_SQL;
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
-			//TODO: inviare log
 		}
 		
-		//prepara il messaggio da inviare al client
+	
 		switch (exists) {
 		case 0: //utente non registrato
 			message = LOGIN_ERROR_MESSAGE;
@@ -53,15 +50,15 @@ public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi
 			message = username + "$cliente";
 			//avvia la sessione utente
 			session = request.getSession();
-			session.setAttribute("username", username);
-			session.setAttribute("ruolo", "cliente");
+			session.setAttribute(USER, username);
+			session.setAttribute(TIPOUTENTE, "cliente");
 			break;
 		case 5: //utente registrato come admin
 			message = username + "$admin";
 			//avvia la sessione utente
 			session = request.getSession();
-			session.setAttribute("username", username);
-			session.setAttribute("ruolo", "admin");
+			session.setAttribute(USER, username);
+			session.setAttribute(TIPOUTENTE, "admin");
 			break;
 		}
 		
