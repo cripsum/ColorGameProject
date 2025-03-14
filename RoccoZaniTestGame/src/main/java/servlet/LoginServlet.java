@@ -7,14 +7,14 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import Entita.Utente;
-import Interfacce.MessaggiErrore;
+import Interfacce.Messaggi;
 import Interfacce.NomiParametri;
 
 /**
  * Servlet implementation class LogIn
  */
 @WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet implements NomiParametri, MessaggiErrore {
+public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi {
 	private static final long serialVersionUID = 1L;
 	
 	/**
