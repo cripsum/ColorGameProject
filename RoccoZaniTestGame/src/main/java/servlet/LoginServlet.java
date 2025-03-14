@@ -45,6 +45,14 @@ public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi
 					else {//utente non bannato
 						session = request.getSession();
 						session.setAttribute(IDUTENTE, a.getIdUtente());
+						session.setAttribute(USERNAME, a.getUsername());
+						session.setAttribute(NOME, a.getNome());
+						session.setAttribute(COGNOME, a.getCognome());
+						session.setAttribute(EMAIL, a.getEmail());
+						session.setAttribute(DATA_NASCITA, a.getDataNascita());
+						session.setAttribute(DATA_REGISTRAZIONE, a.getDataRegistrazione());
+						session.setAttribute(FOTO_PROFILO, a.getFotoProfilo());
+						session.setAttribute(UTENTE_BANNATO, a.isUtenteBannato());
 						if (a.getTipo().equals("cliente")) {
 							message = email + "$cliente";
 							session.setAttribute(TIPOUTENTE, "cliente");

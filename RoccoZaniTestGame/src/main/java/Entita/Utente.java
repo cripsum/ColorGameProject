@@ -52,7 +52,7 @@ public class Utente implements NomiParametri, Messaggi {
 	}
 	
 	public static boolean addUtente(String username,String nome, String cognome, String password, String email,String dataNascita, String tipo) throws SQLException {
-		String idUtente = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+		String idUtente = UUID.randomUUID().toString().replace("-", "").substring(0, 7);
 		String sqlQuery = "INSERT INTO user (idUtente, username, nome, cognome, password, email, dataNascita, fotoprofilo, tipo) VALUES ('" + idUtente + "', '" + username + "', '" + nome + "', '" + cognome + "', '" + password + "', '" + email + "', '" + dataNascita + "', '" + tipo + "')";
 		try {
 			DBmanager.executeSQL(sqlQuery);
