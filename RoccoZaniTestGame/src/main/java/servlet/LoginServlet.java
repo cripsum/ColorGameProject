@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi
 			if (a != null) {
 				if (a.getPassword().equals(password)) {//password corretta
 					session = request.getSession();
-					session.setAttribute(ID, a.getId());
+					session.setAttribute(IDUTENTE, a.getIdUtente());
 					if (a.getTipo().equals("cliente")) {
 						message = email + "$cliente";
 						session.setAttribute(TIPOUTENTE, "cliente");

@@ -7,14 +7,13 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
-
 import DBmanager.DBmanager;
 import Interfacce.Messaggi;
 import Interfacce.NomiParametri;
 
 public class Utente implements NomiParametri, Messaggi {
 	//attributi
-	private String id;
+	private String idUtente;
 	private String username;
 	private String password;
 	private String nome;
@@ -26,8 +25,8 @@ public class Utente implements NomiParametri, Messaggi {
 	private String tipo;
 	
 	//costruttore
-	public Utente(String id, String username, String password, String nome, String cognome, String email, Date dataNascita, LocalDateTime dataRegistrazione, Blob fotoProfilo, String tipo) {
-		this.id = id;
+	public Utente(String idUtente, String username, String password, String nome, String cognome, String email, Date dataNascita, LocalDateTime dataRegistrazione, Blob fotoProfilo, String tipo) {
+		this.idUtente = idUtente;
 		this.username = username;
 		this.password = password;
 		this.nome = nome;
@@ -45,15 +44,15 @@ public class Utente implements NomiParametri, Messaggi {
 		String sqlQuery = "SELECT * FROM user WHERE email =" + "'" + email + "'";
 		ResultSet rs = DBmanager.executeSQL(sqlQuery);
 		if (rs.next()) {
-			Utente utente = new Utente(rs.getString("id"), rs.getString("username"), rs.getString("password"), rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getDate("dataNascita"), rs.getTimestamp("dataRegistrazione").toLocalDateTime(), rs.getBlob("fotoProfilo"), rs.getString("tipo"));
+			Utente utente = new Utente(rs.getString(IDUTENTE), rs.getString(USERNAME), rs.getString(PASSWORD), rs.getString(NOME), rs.getString(COGNOME), rs.getString(EMAIL), rs.getDate(DATA_NASCITA), rs.getTimestamp(DATA_REGISTRAZIONE).toLocalDateTime(), rs.getBlob(FOTO_PROFILO), rs.getString(TIPOUTENTE));
 			return utente;
 		}
 		return null;
 	}
 	
 	public static boolean addUtente(String username,String nome, String cognome, String password, String email,String dataNascita, String tipo) throws SQLException {
-		String id = UUID.randomUUID().toString();
-		String sqlQuery = "INSERT INTO user (id, username, nome, cognome, password, email, dataNascita, dataRegistrazione, fotoprofilo, tipo) VALUES ('" + id + "', '" + username + "', '" + nome + "', '" + cognome + "', '" + password + "', '" + email + "', '" + dataNascita + "', '" + Timestamp.valueOf(LocalDateTime.now()) + "', '" + tipo + "')";
+		String idUtente = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+		String sqlQuery = "INSERT INTO user (idUtente, username, nome, cognome, password, email, dataNascita, dataRegistrazione, fotoprofilo, tipo) VALUES ('" + idUtente + "', '" + username + "', '" + nome + "', '" + cognome + "', '" + password + "', '" + email + "', '" + dataNascita + "', '" + Timestamp.valueOf(LocalDateTime.now()) + "', '" + tipo + "')";
 		try {
 			DBmanager.executeSQL(sqlQuery);
 			return true;
@@ -64,12 +63,12 @@ public class Utente implements NomiParametri, Messaggi {
 	}
 	
 	//metodi getter e setter
-	public String getId() {
-		return id;
+	public String getIdUtente() {
+		return idUtente;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setIdUtente(String idUtente) {
+		this.idUtente = idUtente;
 	}
 
 	public String getUsername() {
