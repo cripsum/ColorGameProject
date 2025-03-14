@@ -11,5 +11,6 @@ public interface NomiParametri {
 	public static final String DATA_REGISTRAZIONE = "dataRegistrazione";
 	public static final String FOTO_PROFILO = "fotoProfilo";
 	public static final String TIPOUTENTE = "tipo";
+	public static final String UTENTE_BANNATO = "utenteBannato";
 	
 }
