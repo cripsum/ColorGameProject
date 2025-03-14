@@ -1,6 +1,5 @@
 package Entita;
 
-import java.security.NoSuchAlgorithmException;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +10,7 @@ import java.util.UUID;
 import DBmanager.DBmanager;
 
 public class Utente {
+	//attributi
 	private String id;
 	private String username;
 	private String password;
@@ -20,6 +20,7 @@ public class Utente {
 	private LocalDateTime dataRegistrazione;
 	private Blob fotoProfilo;
 	
+	//costruttore
 	public Utente(String id, String username, String password, String tipo, String email, Date dataNascita, LocalDateTime dataRegistrazione, Blob fotoProfilo) {
 		this.id = id;
 		this.username = username;
@@ -31,29 +32,16 @@ public class Utente {
 		this.fotoProfilo = fotoProfilo;
 	}
 
+	//metodi stastici
 	
-	public static int isUser(String username, String password) throws SQLException, NoSuchAlgorithmException {
-		int exists = 0;
-		String sqlQuery = "SELECT * FROM user WHERE username =" + "'" + username + "'";
-		
-		//esecuzione della query
+	public static Utente getUser(String email) throws SQLException {
+		String sqlQuery = "SELECT * FROM user WHERE email =" + "'" + email + "'";
 		ResultSet rs = DBmanager.executeSQL(sqlQuery);
-		//analisi del risultato
-		if (rs.next()) { // username trovato
-			//password criptata
-			String codedPassword = rs.getString("password");
-			if (password.equals(codedPassword)) //le due password coincidono
-				if (rs.getString("tipo").equals("cliente"))
-					exists = 4; //ruolo: cliente
-				else
-					exists = 5; //ruolo: admin
-			else
-				exists = 3;
+		if (rs.next()) {
+			Utente utente = new Utente(rs.getString("id"), rs.getString("username"), rs.getString("password"), rs.getString("tipo"), rs.getString("email"), rs.getDate("dataNascita"), rs.getTimestamp("dataRegistrazione").toLocalDateTime(), rs.getBlob("fotoProfilo"));
+			return utente;
 		}
-		else //utente non trovato
-			exists = 0;
-		
-		return exists;
+		return null;
 	}
 	
 	public static int addUtente(String username, String password, String tipo, String email, Date dataNascita, LocalDateTime dataRegistrazione, Blob fotoProfilo) {
@@ -61,5 +49,87 @@ public class Utente {
 		String sqlQuery = "INSERT INTO user (id, username, password, tipo, email, dataNascita, dataRegistrazione, fotoProfilo) VALUES ('" + id + "','" + username + "', '" + password + "', '" + tipo + "', '" + email + "', '" + dataNascita + "', '" + dataRegistrazione + "', '" + fotoProfilo + "')";
 		DBmanager.executeSQL(sqlQuery);
 		return 1;
+	}
+	
+	
+	
+	//metodi getter e setter
+	public String getId() {
+		return id;
+	}
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+	public String getUsername() {
+		return username;
+	}
+
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+	public String getTipo() {
+		return tipo;
+	}
+
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public Date getDataNascita() {
+		return dataNascita;
+	}
+
+
+	public void setDataNascita(Date dataNascita) {
+		this.dataNascita = dataNascita;
+	}
+
+
+	public LocalDateTime getDataRegistrazione() {
+		return dataRegistrazione;
+	}
+
+
+	public void setDataRegistrazione(LocalDateTime dataRegistrazione) {
+		this.dataRegistrazione = dataRegistrazione;
+	}
+
+
+	public Blob getFotoProfilo() {
+		return fotoProfilo;
+	}
+
+
+	public void setFotoProfilo(Blob fotoProfilo) {
+		this.fotoProfilo = fotoProfilo;
 	}
 }

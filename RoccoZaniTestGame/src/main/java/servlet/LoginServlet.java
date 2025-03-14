@@ -2,7 +2,6 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,49 +18,50 @@ public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi
 	private static final long serialVersionUID = 1L;
 	
 	/**
+     * @see HttpServlet#HttpServlet()
+     */
+    public LoginServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+	
+	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String message = null; //risposta al client
-		int exists = 0; //variabile di controllo per la verifica dell'esistenza dell'utente
+		Utente a = null; //utente
 		HttpSession session = null; //parametro di sessione
 		
-		String username = request.getParameter(USER); 
+		String email = request.getParameter(EMAIL); 
 		String password = request.getParameter(PASSWORD);
-		
 		try {
-			exists = Utente.isUser(username, password);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			message = ERRORE_LOGIN_SQL;
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			a = Utente.getUser(email);
+			if (a != null) {
+				if (a.getPassword().equals(password)) {//password corretta
+					session = request.getSession();
+					session.setAttribute(ID, a.getId());
+					if (a.getTipo().equals("cliente")) {
+						message = email + "$cliente";
+						session.setAttribute(TIPOUTENTE, "cliente");
+					} else if (a.getTipo().equals("admin")) {
+						message = email + "$admin";
+						session.setAttribute(TIPOUTENTE, "admin");
+					}
+				} 
+				else{//password errata
+					message = PASSWORD_ERROR_MESSAGE;
+				}
+			} else {//utente non registrato
+				message = LOGIN_ERROR_MESSAGE;
+			}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				message = ERRORE_LOGIN_SQL;
+			} catch (Exception e) {
+				e.printStackTrace();
 		}
-		
-	
-		switch (exists) {
-		case 0: //utente non registrato
-			message = LOGIN_ERROR_MESSAGE;
-			break;
-		case 3: //password errata
-			message = PASSWORD_ERROR_MESSAGE;
-			break;
-		case 4: //utente registrato come cliente
-			message = username + "$cliente";
-			//avvia la sessione utente
-			session = request.getSession();
-			session.setAttribute(USER, username);
-			session.setAttribute(TIPOUTENTE, "cliente");
-			break;
-		case 5: //utente registrato come admin
-			message = username + "$admin";
-			//avvia la sessione utente
-			session = request.getSession();
-			session.setAttribute(USER, username);
-			session.setAttribute(TIPOUTENTE, "admin");
-			break;
-		}
-		
+
 		//invia la risposta al client
 		PrintWriter writer = null;
 		try {
