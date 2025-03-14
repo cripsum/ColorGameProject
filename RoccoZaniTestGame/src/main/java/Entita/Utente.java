@@ -68,10 +68,6 @@ public class Utente implements NomiParametri, Messaggi {
 		return idUtente;
 	}
 
-	public void setIdUtente(String idUtente) {
-		this.idUtente = idUtente;
-	}
-
 	public String getUsername() {
 		return username;
 	}
@@ -122,10 +118,6 @@ public class Utente implements NomiParametri, Messaggi {
 
 	public LocalDateTime getDataRegistrazione() {
 		return dataRegistrazione;
-	}
-
-	public void setDataRegistrazione(LocalDateTime dataRegistrazione) {
-		this.dataRegistrazione = dataRegistrazione;
 	}
 
 	public Blob getFotoProfilo() {

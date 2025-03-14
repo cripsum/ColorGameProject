@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 14, 2025 alle 18:36
+-- Creato il: Mar 14, 2025 alle 23:00
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 -- (Vedi sotto per la vista effettiva)
 --
 CREATE TABLE `classifica` (
-`username` varchar(50)
+`nome` varchar(20)
 ,`punteggio` int(8)
 );
 
@@ -115,7 +115,7 @@ INSERT INTO `utente` (`idUtente`, `username`, `password`, `nome`, `cognome`, `em
 --
 DROP TABLE IF EXISTS `classifica`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `classifica`  AS SELECT `utente`.`username` AS `username`, `partita`.`punteggio` AS `punteggio` FROM (`utente` join `partita`) WHERE `partita`.`idUtente` = `utente`.`idUtente` ORDER BY `partita`.`punteggio` DESC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `classifica`  AS SELECT `utente`.`nome` AS `nome`, `partita`.`punteggio` AS `punteggio` FROM (`utente` join `partita`) WHERE `utente`.`utenteBannato` = 0 AND `utente`.`idUtente` = `partita`.`idUtente` ORDER BY `partita`.`punteggio` DESC ;
 
 --
 -- Indici per le tabelle scaricate
