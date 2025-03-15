@@ -3,9 +3,9 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 import Entita.Utente;
 import Interfacce.Messaggi;
 import Interfacce.NomiParametri;
@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi
         super();
         // TODO Auto-generated constructor stub
     }
-	
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -76,13 +76,9 @@ public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi
 		}
 
 		//invia la risposta al client
-		PrintWriter writer = null;
-		try {
-			writer = response.getWriter();
-		} catch (IOException e) {
-			e.printStackTrace();
-			message = IO_EXCEPTION_MESSAGE;
-		}
+		
+		PrintWriter writer = response.getWriter();
+		
 		writer.println(message);
 	}
 
