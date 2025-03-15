@@ -1,7 +1,7 @@
 package Interfacce;
 
 public interface NomiParametri {
-	//nomi parametri utente
+	//nomi parametri utente 
 	public static final String IDUTENTE = "idUtente";
 	public static final String USERNAME = "username";
 	public static final String NOME = "nome";
@@ -13,6 +13,18 @@ public interface NomiParametri {
 	public static final String FOTO_PROFILO = "fotoProfilo";
 	public static final String TIPOUTENTE = "tipo";
 	public static final String UTENTE_BANNATO = "utenteBannato";
+	//nomi parametri db tabella utente
+	public static final String DB_IDUTENTE = "idUtente";
+	public static final String DB_USERNAME = "username";
+	public static final String DB_NOME = "nome";
+	public static final String DB_COGNOME = "cognome";
+	public static final String DB_EMAIL = "email";
+	public static final String DB_PASSWORD = "password";
+	public static final String DB_DATA_NASCITA = "dataNascita";
+	public static final String DB_DATA_REGISTRAZIONE = "dataRegistrazione";
+	public static final String DB_FOTO_PROFILO = "fotoProfilo";
+	public static final String DB_TIPOUTENTE = "tipo";
+	public static final String DB_UTENTE_BANNATO = "utenteBannato";
 	//nomi parametri partita
 	public static final String IDPARTITA = "idPartita";
 	public static final String DATAEORAFINE = "data";

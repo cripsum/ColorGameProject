@@ -1,6 +1,8 @@
 package Entita;
 
 import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -41,19 +43,37 @@ public class Utente implements NomiParametri, Messaggi {
 
 	//metodi stastici
 	
-	public static Utente getUser(String email) throws SQLException {
-		String sqlQuery = "SELECT * FROM user WHERE email =" + "'" + email + "'";
-		ResultSet rs = DBmanager.executeSQL(sqlQuery);
-		if (rs.next()) {
-			Utente utente = new Utente(rs.getString(IDUTENTE), rs.getString(USERNAME), rs.getString(PASSWORD), rs.getString(NOME), rs.getString(COGNOME), rs.getString(EMAIL), rs.getDate(DATA_NASCITA), rs.getTimestamp(DATA_REGISTRAZIONE).toLocalDateTime(), rs.getBlob(FOTO_PROFILO), rs.getString(TIPOUTENTE), rs.getBoolean(UTENTE_BANNATO));
-			return utente;
-		}
-		return null;
+	public static Utente getUserFromEmail(String email) throws SQLException {
+	    String sqlQuery = "SELECT * FROM utente WHERE LOWER(" + DB_EMAIL + ") =LOWER(?)";
+	   	    try (Connection conn = DBmanager.getConnection();PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+	        pstmt.setString(1, email);
+	        try (ResultSet rs = pstmt.executeQuery()) {
+	            if (rs.next()) {
+	            	System.out.println("Utente trovato");
+	                return new Utente(
+	                    rs.getString(DB_IDUTENTE),
+	                    rs.getString(DB_USERNAME),
+	                    rs.getString(DB_PASSWORD),
+	                    rs.getString(DB_NOME),
+	                    rs.getString(DB_COGNOME),
+	                    rs.getString(DB_EMAIL),
+	                    rs.getDate(DB_DATA_NASCITA),
+	                    rs.getTimestamp(DB_DATA_REGISTRAZIONE).toLocalDateTime(),
+	                    rs.getBlob(DB_FOTO_PROFILO),
+	                    rs.getString(DB_TIPOUTENTE),
+	                    rs.getBoolean(DB_UTENTE_BANNATO)
+	                );
+	            }
+	            System.out.println("Utente non trovato");
+	        }
+	    }
+	    return null;
 	}
+
 	
 	public static boolean addUtente(String username,String nome, String cognome, String password, String email,String dataNascita, String tipo) throws SQLException {
 		String idUtente = UUID.randomUUID().toString().replace("-", "").substring(0, 7);
-		String sqlQuery = "INSERT INTO user (idUtente, username, nome, cognome, password, email, dataNascita, fotoprofilo, tipo) VALUES ('" + idUtente + "', '" + username + "', '" + nome + "', '" + cognome + "', '" + password + "', '" + email + "', '" + dataNascita + "', '" + tipo + "')";
+		String sqlQuery = "INSERT INTO utente (idUtente, username, nome, cognome, password, email, dataNascita, fotoprofilo, tipo) VALUES ('" + idUtente + "', '" + username + "', '" + nome + "', '" + cognome + "', '" + password + "', '" + email + "', '" + dataNascita + "', '" + tipo + "')";
 		try {
 			DBmanager.executeSQL(sqlQuery);
 			return true;

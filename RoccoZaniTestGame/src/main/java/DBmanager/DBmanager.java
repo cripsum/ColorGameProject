@@ -20,5 +20,7 @@ public class DBmanager {
 		return null;
 	}
 	
-	
+	public static Connection getConnection() throws SQLException {
+		return DriverManager.getConnection(URL+"/"+database, user, password);
+	}
 }

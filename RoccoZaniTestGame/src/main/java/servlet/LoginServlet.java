@@ -36,10 +36,13 @@ public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi
 		String email = request.getParameter(EMAIL); 
 		String password = request.getParameter(PASSWORD);
 		try {
-			a = Utente.getUser(email);
+			a = Utente.getUserFromEmail(email);
 			if (a != null) {
+				System.out.println("ee");
 				if (a.getPassword().equals(password)) {//password corretta
 					if(a.isUtenteBannato()) {//utente bannato
+						System.out.println("aa");
+
 						message = UTENTE_BANNATO;
 					}
 					else {//utente non bannato
@@ -54,22 +57,27 @@ public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi
 						session.setAttribute(FOTO_PROFILO, a.getFotoProfilo());
 						session.setAttribute(UTENTE_BANNATO, a.isUtenteBannato());
 						if (a.getTipo().equals("cliente")) {
+							System.out.println("bb");
+
 							message = email + "$cliente";
 							session.setAttribute(TIPOUTENTE, "cliente");
 						} else if (a.getTipo().equals("admin")) {
+							System.out.println("cc");
+
 							message = email + "$admin";
 							session.setAttribute(TIPOUTENTE, "admin");
 						}
 					} 
 				}
 				else{//password errata
+					System.out.println("dd");
 					message = PASSWORD_ERROR_MESSAGE;
 				}
 			} else {//utente non registrato
 				message = LOGIN_ERROR_MESSAGE;
 			}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				System.out.println(e.getMessage());
 				message = ERRORE_LOGIN_SQL;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -78,7 +86,7 @@ public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi
 		//invia la risposta al client
 		
 		PrintWriter writer = response.getWriter();
-		
+		System.out.println(message);
 		writer.println(message);
 	}
 
