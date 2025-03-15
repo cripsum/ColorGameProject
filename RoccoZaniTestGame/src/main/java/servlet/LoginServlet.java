@@ -24,11 +24,11 @@ public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi
         super();
         // TODO Auto-generated constructor stub
     }
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String message = null; //risposta al client
 		Utente a = null; //utente
 		HttpSession session = null; //parametro di sessione
@@ -38,11 +38,8 @@ public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi
 		try {
 			a = Utente.getUserFromEmail(email);
 			if (a != null) {
-				System.out.println("ee");
 				if (a.getPassword().equals(password)) {//password corretta
 					if(a.isUtenteBannato()) {//utente bannato
-						System.out.println("aa");
-
 						message = UTENTE_BANNATO;
 					}
 					else {//utente non bannato
@@ -56,21 +53,16 @@ public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi
 						session.setAttribute(DATA_REGISTRAZIONE, a.getDataRegistrazione());
 						session.setAttribute(FOTO_PROFILO, a.getFotoProfilo());
 						session.setAttribute(UTENTE_BANNATO, a.isUtenteBannato());
-						if (a.getTipo().equals("cliente")) {
-							System.out.println("bb");
-
-							message = email + "$cliente";
-							session.setAttribute(TIPOUTENTE, "cliente");
-						} else if (a.getTipo().equals("admin")) {
-							System.out.println("cc");
-
+						if (a.getTipo().equals("admin")) {//utente admin
 							message = email + "$admin";
 							session.setAttribute(TIPOUTENTE, "admin");
+						} else if(a.getTipo().equals("utente")) {//utente normale
+							message = email + "$utente";
+							session.setAttribute(TIPOUTENTE, "utente");
 						}
 					} 
 				}
 				else{//password errata
-					System.out.println("dd");
 					message = PASSWORD_ERROR_MESSAGE;
 				}
 			} else {//utente non registrato
@@ -88,6 +80,13 @@ public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi
 		PrintWriter writer = response.getWriter();
 		System.out.println(message);
 		writer.println(message);
+    }
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
 	}
 
 
