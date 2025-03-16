@@ -4,5 +4,6 @@ Scarica il gioco, non te ne pentirai!
 
 
 strumenti richiesti per l'esecuzione:
-- eclipse java 23
-- tomcat8.5
+- java se 17
+- tomcat11
+- xampp
