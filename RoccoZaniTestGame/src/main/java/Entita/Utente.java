@@ -11,6 +11,7 @@ import java.util.UUID;
 import DBmanager.DBmanager;
 import Interfacce.Messaggi;
 import Interfacce.NomiParametri;
+import strumenti.Strumenti;
 
 public class Utente implements NomiParametri, Messaggi {
 	//attributi
@@ -71,16 +72,29 @@ public class Utente implements NomiParametri, Messaggi {
 	}
 
 	
-	public static boolean addUtente(String username,String nome, String cognome, String password, String email,String dataNascita, String tipo) throws SQLException {
-		String idUtente = UUID.randomUUID().toString().replace("-", "").substring(0, 7);
-		String sqlQuery = "INSERT INTO utente (idUtente, username, nome, cognome, password, email, dataNascita, fotoprofilo, tipo) VALUES ('" + idUtente + "', '" + username + "', '" + nome + "', '" + cognome + "', '" + password + "', '" + email + "', '" + dataNascita + "', '" + tipo + "')";
-		try {
-			DBmanager.executeSQL(sqlQuery);
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
+	public static boolean addUtente(String username,String nome, String cognome, String password, String email,String dataNascita) throws SQLException {
+		if(!Strumenti.isEmailValid(email)) {
+			System.out.println(FORMATO_EMAIL_ERRATO);
 			return false;
 		}
+		String idUtente = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+		String sqlQuery = "INSERT INTO utente (" + DB_IDUTENTE + "," + DB_USERNAME + "," + DB_NOME + "," + DB_COGNOME + "," + DB_PASSWORD + "," + DB_EMAIL + "," + DB_DATA_NASCITA + ") VALUES (?,?,?,?,?,?,?)";
+		try (Connection conn = DBmanager.getConnection();PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+			pstmt.setString(1, idUtente);
+			pstmt.setString(2, username);
+			pstmt.setString(3, nome);
+			pstmt.setString(4, cognome);
+			pstmt.setString(5, password);
+			pstmt.setString(6, email);
+			pstmt.setString(7, dataNascita);
+			pstmt.executeUpdate();
+			return true;
+		}
+		catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+
 	}
 	
 	//metodi getter e setter

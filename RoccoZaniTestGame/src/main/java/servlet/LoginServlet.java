@@ -25,6 +25,13 @@ public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi
         // TODO Auto-generated constructor stub
     }
     
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+    
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
@@ -76,18 +83,13 @@ public class LoginServlet extends HttpServlet implements NomiParametri, Messaggi
 		}
 
 		//invia la risposta al client
-		
-		PrintWriter writer = response.getWriter();
-		System.out.println(message);
+		PrintWriter writer = null;
+		try {
+			writer = response.getWriter();
+		} catch (IOException e) {
+			e.printStackTrace();
+			message = IO_EXCEPTION_MESSAGE;
+		}
 		writer.println(message);
-    }
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
 	}
-
-
 }

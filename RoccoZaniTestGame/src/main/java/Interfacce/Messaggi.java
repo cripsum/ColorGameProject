@@ -35,4 +35,5 @@ public interface Messaggi {
 	public static final String LOGIN_CONFIRM_MESSAGE = "Grazie per esserti registrato";
 	public static final String INSERT_SUCCESS_MESSAGE = "Inserimento riuscito";
 	public static final String INSERT_ERROR_MESSAGE = "Inserimento fallito";
+	public static final String FORMATO_EMAIL_ERRATO = "Formato email errato";
 }

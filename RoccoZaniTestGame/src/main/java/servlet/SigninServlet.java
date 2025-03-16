@@ -27,6 +27,13 @@ public class SigninServlet extends HttpServlet implements Messaggi, NomiParametr
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+		doGet(request, response);
+	}
+	
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 		String message = null;
 		
 		// recupera i parametri inviati dal client
@@ -36,11 +43,11 @@ public class SigninServlet extends HttpServlet implements Messaggi, NomiParametr
 		String cognome = request.getParameter(COGNOME);
 		String email = request.getParameter(EMAIL);
 		String dataNascita = request.getParameter(DATA_NASCITA);
-		String tipo = "cliente";
 		
+		System.out.println( "username: " + username + " password: " + password + " nome: " + nome + " cognome: " + cognome + " email: " + email + " dataNascita: " + dataNascita);
 		// inserisce l'istanza nella tabella user
 		try {
-			if(Utente.addUtente(username, password, nome, cognome, email, dataNascita, tipo)) {
+			if(Utente.addUtente(username, password, nome, cognome, email, dataNascita)) {
 				message = INSERT_SUCCESS_MESSAGE;
 			} else {
 				message = INSERT_ERROR_MESSAGE;
@@ -60,5 +67,4 @@ public class SigninServlet extends HttpServlet implements Messaggi, NomiParametr
 		}
 		writer.println(message);
 	}
-
 }
