@@ -38,11 +38,20 @@
 			<artifactId>jersey-container-servlet</artifactId>
 			<version>4.0.0-M2</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.glassfish.jersey.inject</groupId>
 			<artifactId>jersey-hk2</artifactId>
 			<version>4.0.0-M2</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+			<version>3.0.1</version>
 		</dependency>
 	</dependencies>
 </project>

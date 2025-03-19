@@ -31,6 +31,12 @@ public interface NomiParametri {
 	public static final String DATAEORAINIZIO = "data";
 	public static final String PARTITAIDUTENTE = "idutente";
 	public static final String PUNTEGGIO = "punteggio";
+	//nomi parametri db tabella partita
+	public static final String DB_IDPARTITA = "idPartita";
+	public static final String DB_DATAEORAFINE = "data";
+	public static final String DB_DATAEORAINIZIO = "data";
+	public static final String DB_PARTITAIDUTENTE = "idutente";
+	public static final String DB_PUNTEGGIO = "punteggio";
 	//nomi parametri richiesta
 	public static final String IDRICHIESTA = "idRichiesta";
 	public static final String IDRICHIEDENTE = "idRichiedente";
