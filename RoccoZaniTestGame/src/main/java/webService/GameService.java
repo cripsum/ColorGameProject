@@ -1,8 +1,5 @@
 package webService;
 
-import java.util.Map;
-
-import Entita.Partita;
 import Interfacce.Messaggi;
 import Interfacce.NomiParametri;
 import jakarta.ws.rs.*;
@@ -15,4 +12,3 @@ public class GameService implements Messaggi, NomiParametri {
 
 
 }
-

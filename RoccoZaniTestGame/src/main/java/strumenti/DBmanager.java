@@ -1,4 +1,4 @@
-package DBmanager;
+package strumenti;
 import java.sql.*;
 
 public class DBmanager {

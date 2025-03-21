@@ -7,10 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.UUID;
-import DBmanager.DBmanager;
+
 import Interfacce.Messaggi;
 import Interfacce.NomiParametri;
+import strumenti.DBmanager;
 import strumenti.Strumenti;
 
 public class Utente implements NomiParametri, Messaggi {
@@ -77,7 +77,7 @@ public class Utente implements NomiParametri, Messaggi {
 			System.out.println(FORMATO_EMAIL_ERRATO);
 			return false;
 		}
-		String idUtente = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+		String idUtente = strumenti.Strumenti.generaId();
 		String sqlQuery = "INSERT INTO utente (" + DB_IDUTENTE + "," + DB_USERNAME + "," + DB_NOME + "," + DB_COGNOME + "," + DB_PASSWORD + "," + DB_EMAIL + "," + DB_DATA_NASCITA + ") VALUES (?,?,?,?,?,?,?)";
 		try (Connection conn = DBmanager.getConnection();PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
 			pstmt.setString(1, idUtente);
