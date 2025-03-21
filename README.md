@@ -4,6 +4,6 @@ Scarica il gioco, non te ne pentirai!
 
 
 strumenti richiesti per l'esecuzione:
-- java se 17
+- java se 23
 - tomcat11
 - xampp
