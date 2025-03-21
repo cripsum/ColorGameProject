@@ -1,8 +1,16 @@
 package Entita;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-public class Partita {
+import DBmanager.DBmanager;
+import Interfacce.Messaggi;
+import Interfacce.NomiParametri;
+
+public class Partita implements NomiParametri, Messaggi {
 	private String idPartita;
 	private LocalDateTime dataEOraInizio;
 	private LocalDateTime dataEOraFine;
@@ -57,7 +65,24 @@ public class Partita {
 		this.idPunteggio = idPunteggio;
 	}
 	
-	
-	
-	
-}	
+	//logica del gioco
+	public static int getPartitaUtente(String PARTITAIDUTENTE) {
+		String sqlQuery = "SELECT punteggio FROM partite WHERE "+DB_PARTITAIDUTENTE+" = ?";
+		try (Connection conn = DBmanager.getConnection();PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+			pstmt.setString(1, PARTITAIDUTENTE);
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					System.out.println("Utente trovato");
+
+					System.out.println("Utente non trovato");
+				}
+			}
+
+		}
+		catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return -1;
+		}
+		return 0;
+	}	
+}
