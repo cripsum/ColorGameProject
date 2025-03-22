@@ -1,7 +1,7 @@
 package strumenti;
 import java.sql.*;
 
-public class DBmanager {
+public abstract class DBmanager {
 	private static String URL = "jdbc:mysql://localhost:3306";
 	private static String database = "ZaniTestGame";
 	private static String user = "root";
