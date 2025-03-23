@@ -9,6 +9,10 @@ import jakarta.ws.rs.core.*;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class GameService implements Messaggi, NomiParametri {
-
+	@GET
+	@Path("/partita/{idUtente}")
+	public Response getPartita(@PathParam(IDUTENTE) String idUtente) {
+		return null;
+	}
 
 }
