@@ -50,7 +50,6 @@ public class Utente implements NomiParametri, Messaggi {
 	        pstmt.setString(1, email);
 	        try (ResultSet rs = pstmt.executeQuery()) {
 	            if (rs.next()) {
-	            	System.out.println("Utente trovato");
 	                return new Utente(
 	                    rs.getString(DB_IDUTENTE),
 	                    rs.getString(DB_USERNAME),
@@ -65,7 +64,6 @@ public class Utente implements NomiParametri, Messaggi {
 	                    rs.getBoolean(DB_UTENTE_BANNATO)
 	                );
 	            }
-	            System.out.println("Utente non trovato");
 	        }
 	    }
 	    return null;
@@ -74,7 +72,6 @@ public class Utente implements NomiParametri, Messaggi {
 	
 	public static boolean addUtente(String username,String nome, String cognome, String password, String email,String dataNascita) throws SQLException {
 		if(!Strumenti.isEmailValid(email)) {
-			System.out.println(FORMATO_EMAIL_ERRATO);
 			return false;
 		}
 		String idUtente = strumenti.Strumenti.generaId();
