@@ -9,9 +9,9 @@ import Interfacce.Messaggi;
 import Interfacce.NomiParametri;
 
 public abstract class GameManager implements NomiParametri, Messaggi {
-	private List<Partita> partiteInCorso=new ArrayList<Partita>();
+	private static List<Partita> partiteInCorso=new ArrayList<Partita>();
 	
-	public boolean cercaPartita(String idUtente) {
+	public static boolean cercaPartita(String idUtente) {
         for (Partita p : partiteInCorso) {
             if (p.getIdUtente().equals(idUtente)) {
                 return true;
@@ -20,7 +20,7 @@ public abstract class GameManager implements NomiParametri, Messaggi {
         return false;
     }
 	
-	public void aggiungiPartita(String idUtente) {
+	public static void aggiungiPartita(String idUtente) {
         if (!cercaPartita(idUtente)) {
             Partita p = new Partita(idUtente);
             p.newTurno();
@@ -28,7 +28,7 @@ public abstract class GameManager implements NomiParametri, Messaggi {
         }
     }
 	
-	public void checkAnswer(String idUtente, int x, int y) {
+	public static void checkAnswer(String idUtente, int x, int y) {
 		for (Partita p : partiteInCorso) {
 			if (p.getIdUtente().equals(idUtente)) {
 				if (p.getTurno().getCorX() == x && p.getTurno().getCorY() == y) {
@@ -42,7 +42,7 @@ public abstract class GameManager implements NomiParametri, Messaggi {
 		}
 	}
 	
-	public void finePartita(String idUtente) {
+	public static  void finePartita(String idUtente) {
 		for (Partita p : partiteInCorso) {
 			if (p.getIdUtente().equals(idUtente)) {
 				p.saveOnDB();

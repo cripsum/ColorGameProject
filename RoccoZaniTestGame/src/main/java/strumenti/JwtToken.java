@@ -7,7 +7,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-public abstract class jwtToken {
+public abstract class JwtToken {
 	private static final String key = "siuum";
 	
 	public static String generateToken(String idUtente, String ruolo, String dataDiRegistrazione) {

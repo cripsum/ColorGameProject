@@ -16,5 +16,6 @@ public interface Messaggi {
 	public static final String ERRORE_EMAIL_ESISTENTE = "Email già esistente";
 	
 	public static final String ERRORE_NON_AUTORIZZATO = "Non autorizzato";
-	
+	public static final String ERRORE_TOKEN_NON_VALIDO = "Token non valido";
+	public static final String ERRORE_TOKEN_MANCANTE = "Token mancante";
 }

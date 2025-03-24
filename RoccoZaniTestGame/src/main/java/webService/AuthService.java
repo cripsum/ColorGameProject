@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import strumenti.Strumenti;
-import strumenti.jwtToken;
+import strumenti.JwtToken;
 
 @Path("/rest/auth")
 @Produces(MediaType.APPLICATION_JSON)
@@ -39,7 +39,7 @@ public class AuthService implements NomiParametri, Messaggi {
 					session.setAttribute(FOTO_PROFILO, a.getFotoProfilo());
 					session.setAttribute(UTENTE_BANNATO, a.isUtenteBannato());
 					session.setAttribute(TIPOUTENTE, a.getTipo());
-					session.setAttribute(TOKEN, jwtToken.generateToken(a.getIdUtente(), a.getTipo(), a.getDataRegistrazione().toString()));
+					session.setAttribute(TOKEN, JwtToken.generateToken(a.getIdUtente(), a.getTipo(), a.getDataRegistrazione().toString()));
 					
 					return Response.ok().build();
 				} else {
@@ -94,7 +94,7 @@ public class AuthService implements NomiParametri, Messaggi {
 	@Path("/check")
 	public Response check(@Context HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		if (jwtToken.verifyToken((String) session.getAttribute(TOKEN)) != null) {
+		if (JwtToken.verifyToken((String) session.getAttribute(TOKEN)) != null) {
 			return Response.ok().build();
 		} else {
 			return Response.status(Response.Status.UNAUTHORIZED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_NON_AUTORIZZATO)).build();
