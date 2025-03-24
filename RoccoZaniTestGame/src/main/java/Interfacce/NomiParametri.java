@@ -37,11 +37,11 @@ public interface NomiParametri {
 	public static final String DB_DATAEORAINIZIO = "data";
 	public static final String DB_PARTITAIDUTENTE = "idutente";
 	public static final String DB_PUNTEGGIO = "punteggio";
-	//nomi parametri richiesta
-	public static final String IDRICHIESTA = "idRichiesta";
-	public static final String IDRICHIEDENTE = "idRichiedente";
-	public static final String EMAILRICHIDENTE = "email";
+
+	
+	//altro
+	public static final String TOKEN = "token";
 	public static final String MESSAGGIO = "messaggio";
-	public static final String STATO = "stato";
+	public static final String ERRORE = "errore";
 	
 }

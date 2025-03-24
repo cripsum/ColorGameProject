@@ -15,4 +15,6 @@ public interface Messaggi {
 	public static final String ERRORE_USERNAME_ESISTENTE = "Username già esistente";
 	public static final String ERRORE_EMAIL_ESISTENTE = "Email già esistente";
 	
+	public static final String ERRORE_NON_AUTORIZZATO = "Non autorizzato";
+	
 }

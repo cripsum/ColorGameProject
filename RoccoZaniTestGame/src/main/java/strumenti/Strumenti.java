@@ -46,4 +46,10 @@ public abstract class Strumenti implements NomiParametri, Messaggi {
 		}
 		return false;
 	}
+	
+	public static String messaggioSempliceJSON(String arttibuto, String messaggio) {
+		return "{\""+arttibuto+"\":\""+messaggio+"\"}";
+	}
+	
+	
 }

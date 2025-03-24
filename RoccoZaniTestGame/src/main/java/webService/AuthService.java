@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import strumenti.Strumenti;
+import strumenti.jwtToken;
 
 @Path("/rest/auth")
 @Produces(MediaType.APPLICATION_JSON)
@@ -26,7 +27,7 @@ public class AuthService implements NomiParametri, Messaggi {
 			if (a != null) {
 				if (a.getPassword().equals(password)) {
 					if (a.isUtenteBannato()) {
-						return Response.status(Response.Status.FORBIDDEN).entity(ERRORE_UTENTE_BANNATO).build();// utente bannato
+						return Response.status(Response.Status.FORBIDDEN).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_UTENTE_BANNATO)).build();
 					}
 					HttpSession session = request.getSession(true);
 					session.setAttribute(IDUTENTE, a.getIdUtente());
@@ -38,20 +39,19 @@ public class AuthService implements NomiParametri, Messaggi {
 					session.setAttribute(FOTO_PROFILO, a.getFotoProfilo());
 					session.setAttribute(UTENTE_BANNATO, a.isUtenteBannato());
 					session.setAttribute(TIPOUTENTE, a.getTipo());
-
+					session.setAttribute(TOKEN, jwtToken.generateToken(a.getIdUtente(), a.getTipo(), a.getDataRegistrazione().toString()));
+					
 					return Response.ok().build();
 				} else {
-					return Response.status(Response.Status.UNAUTHORIZED).entity(ERRORE_PASSWORD_SBAGLIATA).build();
+					return Response.status(Response.Status.UNAUTHORIZED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_PASSWORD_SBAGLIATA)).build();
 				}
 			} else {
-				return Response.status(Response.Status.NOT_FOUND).entity(ERRORE_UTENTE_NON_REGISTRATO).build();
+				return Response.status(Response.Status.NOT_FOUND).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_UTENTE_NON_REGISTRATO)).build();
 			}
 		} catch (SQLException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ERRORE_SQL+" "+e.getMessage())
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_SQL+" "+e.getMessage())).build();
 		} catch (Exception e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ERRORE_GENERICO+" " + e.getMessage())
-					.build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_GENERICO+" " + e.getMessage())).build();
 		}
 	}
 	
@@ -70,24 +70,35 @@ public class AuthService implements NomiParametri, Messaggi {
 	        String dataNascita = jsonObject.get(DATA_NASCITA).getAsString();
 	        
 	        if (!Strumenti.isEmailValid(email)) {
-	            return Response.status(Response.Status.BAD_REQUEST).entity(ERRORE_FORMATO_MAIL).build();
+	            return Response.status(Response.Status.BAD_REQUEST).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_FORMATO_MAIL)).build();
 	        }
 	        if (Strumenti.usernameAccountEsistente(username)) {
-	            return Response.status(Response.Status.BAD_REQUEST).entity(ERRORE_USERNAME_ESISTENTE).build();
+	            return Response.status(Response.Status.BAD_REQUEST).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_USERNAME_ESISTENTE)).build();
 	        }
 	        if (Strumenti.emailAccountEsistente(email)) {
-	            return Response.status(Response.Status.BAD_REQUEST).entity(ERRORE_EMAIL_ESISTENTE).build();
+	            return Response.status(Response.Status.BAD_REQUEST).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_EMAIL_ESISTENTE)).build();
 	        }
 	        
 	        boolean success = Utente.addUtente(username, password, nome, cognome, email, dataNascita);
 	        if (success) {
-	            return Response.status(Response.Status.CREATED).entity(SUCCESSO_INSERIMENTO).build();
+	            return Response.status(Response.Status.CREATED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, SUCCESSO_INSERIMENTO)).build();
 	        } else {
-	            return Response.status(Response.Status.BAD_REQUEST).entity(ERRORE_INSERIMENTO).build();
+	            return Response.status(Response.Status.BAD_REQUEST).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_INSERIMENTO)).build();
 	        }
 	    } catch (Exception e) {
-	        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ERRORE_GENERICO).build();
+	        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_GENERICO)).build();
 	    }
+	}
+	
+	@POST
+	@Path("/check")
+	public Response check(@Context HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if (jwtToken.verifyToken((String) session.getAttribute(TOKEN)) != null) {
+			return Response.ok().build();
+		} else {
+			return Response.status(Response.Status.UNAUTHORIZED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_NON_AUTORIZZATO)).build();
+		}
 	}
 	
 	@POST
