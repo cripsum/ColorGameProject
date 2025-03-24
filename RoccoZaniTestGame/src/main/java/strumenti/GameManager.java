@@ -26,20 +26,31 @@ public abstract class GameManager implements NomiParametri, Messaggi {
             p.newTurno();
             partiteInCorso.add(p);
         }
+        else {
+			for (Partita p : partiteInCorso) {
+				if (p.getIdUtente().equals(idUtente)) {
+					finePartita(idUtente);
+					aggiungiPartita(idUtente);
+				}
+			}
+		}
     }
 	
-	public static void checkAnswer(String idUtente, int x, int y) {
+	public static boolean checkAnswer(String idUtente, int x, int y) {
 		for (Partita p : partiteInCorso) {
 			if (p.getIdUtente().equals(idUtente)) {
 				if (p.getTurno().getCorX() == x && p.getTurno().getCorY() == y) {
 					p.setPunteggio(p.getPunteggio() + 1);
 					p.newTurno();
+					return true;
 				}
 				else {
 					finePartita(idUtente);
+					return false;
 				}
 			}
 		}
+		return false;
 	}
 	
 	public static  void finePartita(String idUtente) {
@@ -49,6 +60,15 @@ public abstract class GameManager implements NomiParametri, Messaggi {
 				partiteInCorso.remove(p);
 			}
 		}
+	}
+	
+	public static Partita getPartita(String idUtente) {
+		for (Partita p : partiteInCorso) {
+			if (p.getIdUtente().equals(idUtente)) {
+				return p;
+			}
+		}
+		return null;
 	}
 	
 }

@@ -18,4 +18,9 @@ public interface Messaggi {
 	public static final String ERRORE_NON_AUTORIZZATO = "Non autorizzato";
 	public static final String ERRORE_TOKEN_NON_VALIDO = "Token non valido";
 	public static final String ERRORE_TOKEN_MANCANTE = "Token mancante";
+	public static final String SUCCESSO_PARTITA_TROVATA = "Partita trovata";
+	public static final String ERRORE_PARTITA_NON_TROVATA = "Partita non trovata";
+	public static final String ERRORE_RICHIESTA_NON_VALIDA = "Richiesta non valida";
+	public static final String RISPOSTA_CORRETTA = "Risposta corretta";
+	public static final String RISPOSTA_ERRATA = "Risposta errata";
 }

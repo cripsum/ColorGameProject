@@ -7,7 +7,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-public abstract class JwtToken {
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.Response;
+
+public abstract class JwtToken implements Interfacce.Messaggi, Interfacce.NomiParametri {
 	private static final String key = "siuum";
 	
 	public static String generateToken(String idUtente, String ruolo, String dataDiRegistrazione) {
@@ -36,6 +39,20 @@ public abstract class JwtToken {
 		} catch (JWTVerificationException e) {
 			return null;
 		}
+	}
+	
+	public static Response verificaToken(HttpHeaders headers) {
+		String token = headers.getHeaderString(TOKEN);
+		if (token == null) {
+			return Response.status(Response.Status.UNAUTHORIZED)
+					.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_TOKEN_MANCANTE)).build();
+		}
+		Token tok = JwtToken.verifyToken(token);
+		if (tok == null) {
+			return Response.status(Response.Status.UNAUTHORIZED)
+					.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_TOKEN_NON_VALIDO)).build();
+		}
+		return Response.ok(tok).build();
 	}
 	
 	public static class Token {

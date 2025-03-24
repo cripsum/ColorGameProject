@@ -38,10 +38,16 @@ public interface NomiParametri {
 	public static final String DB_PARTITAIDUTENTE = "idutente";
 	public static final String DB_PUNTEGGIO = "punteggio";
 
+	//nomi turno
+	public static final String CORDX = "cordX";
+	public static final String CORDY = "cordY";
+	
 	
 	//altro
 	public static final String TOKEN = "token";
 	public static final String MESSAGGIO = "messaggio";
 	public static final String ERRORE = "errore";
+	
+	
 	
 }
