@@ -41,7 +41,7 @@ public class AuthService implements NomiParametri, Messaggi {
 					session.setAttribute(TIPOUTENTE, a.getTipo());
 					session.setAttribute(TOKEN, JwtToken.generateToken(a.getIdUtente(), a.getTipo(), a.getDataRegistrazione().toString()));
 					
-					return Response.ok().build();
+					return Response.ok(Strumenti.messaggioSempliceJSON(MESSAGGIO, SUCCESSO_LOGIN)).build();
 				} else {
 					return Response.status(Response.Status.UNAUTHORIZED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_PASSWORD_SBAGLIATA)).build();
 				}

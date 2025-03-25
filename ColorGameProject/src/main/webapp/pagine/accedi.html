@@ -45,10 +45,10 @@
               </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Accedi</a>
+                    <a class="nav-link" href="accedi.html">Accedi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="registrati">Registrati</a>
+                    <a class="nav-link" href="registrati.html">Registrati</a>
                 </li>
                 </ul>
             </div>
@@ -65,7 +65,7 @@
       role="tabpanel"
       aria-labelledby="tab-login"
     >
-      <form action="http://tuo-servlet-url/login" method="POST">
+      <div id="loginForm" class="fadeup">
         <p class="fs-1 text mb-5 fadeup" style="font-weight: bold;">Accedi</p>
   
         <!-- Email input -->
@@ -80,84 +80,45 @@
           <input type="password" id="password" class="form-control" />
           
         </div>
-
-        <p class="text-center fadeup ">Oppure:</p>
-
-        <div class="text-center mb-3 fadeup">
-            <button data-mdb-ripple-init type="button" class="btn btn-floating mx-1">
-              <i class="bi bi-facebook" style="color: #ffffff"></i>
-            </button>
-    
-            <button data-mdb-ripple-init type="button" class="btn btn-floating mx-1">
-              <i class="bi bi-google" style="color: #ffffff"></i>
-            </button>
-    
-            <button data-mdb-ripple-init type="button" class="btn btn-floating mx-1">
-              <i class="bi bi-twitter" style="color: #ffffff"></i>
-            </button>
-    
-            <button data-mdb-ripple-init type="button" class="btn btn-floating mx-1">
-              <i class="bi bi-github" style="color: #ffffff"></i>
-            </button>
-          </div>
-  
-        <!-- 2 column grid layout -->
-        <div class="row mb-4 fadeup">
-          <div class="col-md-6 d-flex justify-content-center">
-            <!-- Checkbox -->
-            <div class="form-check mb-3 mb-md-0">
-              <input
-                class="form-check-input checco"
-                type="checkbox"
-                value=""
-                id="loginCheck"
-                checked
-              />
-              <label class="form-check-label" for="loginCheck">Resta connesso</label>
-            </div>
-          </div>
-  
-          <div class="col-md-6 d-flex justify-content-center ">
-            <!-- Simple link -->
-            <a href="supporto" style="font-weight: bold;" class="linkbianco">Password dimenticata?</a>
-          </div>
-        </div>
-  
+        
         <!-- Submit button -->
-         
         <div class="button-container mb-3 fadeup" style="text-align: center; margin-top: 3%;">
-          <button class="btn btn-secondary bottone" type="submit">Accedi
-        </button>
+          <button class="btn btn-secondary bottone" type="submit" onclick="login()">Accedi</button>
         <p id="decrypt"></p>
-          
-          
-
         </div>
   
         <!-- Register buttons -->
         <div class="text-center fadeup">
-          <p>Non hai un account? <a href="registrati" style="font-weight: bold;" class="linkbianco">Registrati</a></p>
+          <p>Non hai un account? <a href="registrati.html" style="font-weight: bold;" class="linkbianco">Registrati</a></p>
         </div>
-      </form>
-    </div>
-    <div
-      class="tab-pane fade"
-      id="pills-register"
-      role="tabpanel"
-      aria-labelledby="tab-register"
-    >
+      </div>
+      <script>
+        function login() {
+          const email = document.getElementById("loginName").value;
+          const password = document.getElementById("password").value;
+          fetch(
+          `http://localhost:8080/ColorGameProject/rest/auth/login?email=${encodeURIComponent(
+            email
+          )}&password=${encodeURIComponent(password)}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          })
+          .then((response) => {
+            console.log("Status:", response.status);
+            console.log("Headers:", response.headers);
+            return response.text(); // Legge il corpo come testo
+          })
+          .then((text) => {
+            console.log("Response body:", text);
+            return JSON.parse(text); // Converte manualmente in JSON
+          });
+        }
+      </script>
     </div>
   </div>
 </div>
   <!-- Pills content -->
-  <footer class="my-5 pt-5 text-muted text-center text-small fadeup">
-    <p class="mb-1 testobianco">Copyright © 2025. Tutti i diritti riservati.</p>
-    <ul class="list-inline">
-      <li class="list-inline-item"><a href="#" class="linkbianco">Privacy</a></li>
-      <li class="list-inline-item"><a href="#" class="linkbianco">Termini</a></li>
-      <li class="list-inline-item"><a href="#" class="linkbianco">Supporto</a></li>
-  </ul>
-</footer>
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
@@ -181,4 +142,7 @@
             }
         </script>
     </body>
+    <footer class="my-5 pt-5 text-muted text-center text-small fadeup">
+      <p class="mb-1 testobianco">Copyright © 2025. Tutti i diritti riservati.</p>
+    </footer>
 </html>

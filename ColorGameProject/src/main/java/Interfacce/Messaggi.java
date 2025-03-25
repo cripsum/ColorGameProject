@@ -25,4 +25,5 @@ public interface Messaggi {
 	public static final String RISPOSTA_ERRATA = "Risposta errata";
 	public static final String ERRORE_UTENTE_NON_TROVATO = "Utente non trovato";
 	public static final String SUCCESSO_MODIFICHE_EFFETTUATE = "Modifiche effettuate";
+	public static final String SUCCESSO_LOGIN = "Login effettuato";
 }
