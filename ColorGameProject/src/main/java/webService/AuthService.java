@@ -94,6 +94,9 @@ public class AuthService implements NomiParametri, Messaggi {
 	@Path("/check")
 	public Response check(@Context HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
+		if(session == null) {
+			return Response.status(Response.Status.UNAUTHORIZED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_NON_AUTORIZZATO)).build();
+		}
 		if (JwtToken.verifyToken((String) session.getAttribute(TOKEN)) != null) {
 			return Response.ok().build();
 		} else {
