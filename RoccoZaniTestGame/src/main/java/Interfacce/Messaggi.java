@@ -23,4 +23,6 @@ public interface Messaggi {
 	public static final String ERRORE_RICHIESTA_NON_VALIDA = "Richiesta non valida";
 	public static final String RISPOSTA_CORRETTA = "Risposta corretta";
 	public static final String RISPOSTA_ERRATA = "Risposta errata";
+	public static final String ERRORE_UTENTE_NON_TROVATO = "Utente non trovato";
+	public static final String SUCCESSO_MODIFICHE_EFFETTUATE = "Modifiche effettuate";
 }
