@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 26, 2025 alle 10:00
+-- Creato il: Mar 26, 2025 alle 17:15
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `classifica` (
 `idUtente` char(8)
 ,`username` varchar(50)
-,`MAX(partita.punteggio)` int(8)
+,`punteggio` int(8)
 );
 
 -- --------------------------------------------------------
@@ -116,7 +116,7 @@ INSERT INTO `utente` (`idUtente`, `username`, `password`, `nome`, `cognome`, `em
 --
 DROP TABLE IF EXISTS `classifica`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `classifica`  AS   (select distinct `utente`.`idUtente` AS `idUtente`,`utente`.`username` AS `username`,max(`partita`.`punteggio`) AS `MAX(partita.punteggio)` from (`utente` join `partita`) where `utente`.`idUtente` = `partita`.`idUtente` and `utente`.`utenteBannato` = 0 group by `utente`.`idUtente` order by `partita`.`punteggio` desc)  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `classifica`  AS   (select distinct `utente`.`idUtente` AS `idUtente`,`utente`.`username` AS `username`,max(`partita`.`punteggio`) AS `punteggio` from (`utente` join `partita`) where `utente`.`idUtente` = `partita`.`idUtente` and `utente`.`utenteBannato` = 0 group by `utente`.`idUtente` order by `partita`.`punteggio` desc)  ;
 
 --
 -- Indici per le tabelle scaricate

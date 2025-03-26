@@ -26,7 +26,7 @@ public class AdminService implements Messaggi, NomiParametri{
 			return verifica;
 		Token tok = (Token) verifica.getEntity();
 		if (!tok.getRuolo().equals("admin")) {
-			return Response.status(Response.Status.UNAUTHORIZED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, null)).build();
+			return Response.status(Response.Status.UNAUTHORIZED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_NON_AUTORIZZATO)).build();
 		}
 		for (String string : utenteId) {
 			try {
