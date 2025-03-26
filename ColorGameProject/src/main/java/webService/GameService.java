@@ -1,9 +1,13 @@
 package webService;
 
+import java.sql.SQLException;
+import java.util.List;
+
 import com.google.gson.Gson;
 
 import Interfacce.Messaggi;
 import Interfacce.NomiParametri;
+import entita.RecordClassifica;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import strumenti.GameManager;
@@ -11,7 +15,7 @@ import strumenti.JwtToken;
 import strumenti.JwtToken.Token;
 import strumenti.Strumenti;
 
-@Path("/rest/gioco")
+@Path("/gioco")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class GameService implements Messaggi, NomiParametri {
@@ -80,6 +84,24 @@ public class GameService implements Messaggi, NomiParametri {
 		}
 		return Response.status(Response.Status.NOT_FOUND)
 				.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_PARTITA_NON_TROVATA)).build();
+	}
+	
+	@GET
+	@Path("/getClassifica")
+	public Response getClassifica(@Context HttpHeaders headers) {
+		List<RecordClassifica> classifica;
+		try {
+			classifica = Strumenti.getClassifica();
+
+			if (classifica.isEmpty()) {
+				return Response.status(Response.Status.NOT_FOUND)
+						.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_CLASSIFICA_VUOTA)).build();
+			}
+			return Response.status(Response.Status.OK).entity(new Gson().toJson(classifica)).build();
+		} catch (SQLException e) {
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+					.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_SQL + " " + e.getMessage())).build();
+		}
 	}
 
 }

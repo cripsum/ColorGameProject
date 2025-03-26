@@ -1,4 +1,4 @@
-package Entita;
+package entita;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import Entita.Utente;
 import Interfacce.Messaggi;
 import Interfacce.NomiParametri;
+import entita.Utente;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
@@ -15,7 +15,7 @@ import jakarta.ws.rs.core.*;
 import strumenti.Strumenti;
 import strumenti.JwtToken;
 
-@Path("/rest/auth")
+@Path("/auth")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class AuthService implements NomiParametri, Messaggi {

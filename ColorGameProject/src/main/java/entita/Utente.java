@@ -1,4 +1,4 @@
-package Entita;
+package entita;
 
 import java.io.InputStream;
 import java.sql.Blob;

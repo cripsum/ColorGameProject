@@ -4,9 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import Interfacce.Messaggi;
 import Interfacce.NomiParametri;
+import entita.RecordClassifica;
 
 public abstract class Strumenti implements NomiParametri, Messaggi {
 	public static boolean isEmailValid(String email) {
@@ -49,6 +52,18 @@ public abstract class Strumenti implements NomiParametri, Messaggi {
 	
 	public static String messaggioSempliceJSON(String arttibuto, String messaggio) {
 		return "{\""+arttibuto+"\":\""+messaggio+"\"}";
+	}
+	
+	public static List<RecordClassifica> getClassifica() throws SQLException {
+		List<RecordClassifica> classifica = new ArrayList<RecordClassifica>();
+		String sqlQuery = "SELECT * FROM classifica ORDER BY punteggio DESC";
+		try (Connection conn = DBmanager.getConnection();PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				classifica.add(new RecordClassifica(rs.getString(DB_IDUTENTE),rs.getString(DB_USERNAME), rs.getInt(DB_PUNTEGGIO)));
+			}
+		}
+		return classifica;
 	}
 	
 	

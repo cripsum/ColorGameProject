@@ -3,10 +3,9 @@ package strumenti;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import Entita.Partita;
 import Interfacce.Messaggi;
 import Interfacce.NomiParametri;
+import entita.Partita;
 
 public abstract class GameManager implements NomiParametri, Messaggi {
 	private static List<Partita> partiteInCorso=new ArrayList<Partita>();

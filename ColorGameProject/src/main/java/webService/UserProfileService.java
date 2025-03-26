@@ -5,16 +5,16 @@ import java.sql.SQLException;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import Entita.Utente;
 import Interfacce.Messaggi;
 import Interfacce.NomiParametri;
+import entita.Utente;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import strumenti.JwtToken;
 import strumenti.JwtToken.Token;
 import strumenti.Strumenti;
 
-@Path("/rest/userProfile")
+@Path("/userProfile")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class UserProfileService implements Messaggi, NomiParametri {
