@@ -25,8 +25,6 @@ public class AuthService implements NomiParametri, Messaggi {
 		try {
 			Utente a = Utente.getUserFromEmail(email);
 			if (a != null) {
-				System.out.println(password);
-				System.out.println(a.getPassword());
 				if (a.getPassword().equals(password)) {
 					if (a.isUtenteBannato()) {
 						return Response.status(Response.Status.FORBIDDEN).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_UTENTE_BANNATO)).build();
