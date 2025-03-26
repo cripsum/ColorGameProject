@@ -4,7 +4,6 @@ img {
 body {
   font-family: "Poppins";
   background-color: #121212;
-  text-align: center;
 }
 
 .paginaprincipale {
@@ -471,18 +470,6 @@ radio:hover {
 
 .admin-container h1 {
   text-align: center;
-}
-
-button {
-  padding: 10px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
 }
 
 .color-grid {

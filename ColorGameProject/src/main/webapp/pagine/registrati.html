@@ -26,48 +26,46 @@
         <script src="../js/animations.js"></script>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Cripsum™ - registrati</title>
+        <title>Color Game - registrati</title>
     </head>
 
     <body>
         <nav class="navbarutenti navbar navbar-expand-xl">
             <div class="container-fluid">
-                <a class="navbar-brand" href="home">
-                    <img src="../img/amongus.jpg" height="40px" style="border-radius: 4px" class="d-inline-block align-middle" />
-                    <span class="align-middle ms-3 fw-bold" style="color: white">Cripsum™</span>
-                </a>
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                    style="z-index: 1000"
+              <a class="navbar-brand" href="home.html">
+                <img
+                  src="../img/amongus.jpg"
+                  height="40px"
+                  style="border-radius: 4px"
+                  class="d-inline-block align-middle"
+                />
+                <span
+                  class="align-middle ms-3 fw-bold"
+                  style="color: rgb(255, 255, 255)"
+                  >Color Game</span
                 >
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                      </ul>
-                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="accedi.html">Accedi</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="login.html">Registrati</a>
-                        </li>
-                    </ul>
-                </div>
+              </a>
+              <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarContent"
+              >
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="navbar-menu">
+                  <!-- Qui verranno inseriti dinamicamente i link -->
+                </ul>
+              </div>
             </div>
-        </nav>
-        <div style="max-width: 1920px; margin: auto; padding-top: 7rem" class="testobianco">
+          </nav>
+        <div style="max-width: 1920px; margin: auto; padding-top: 7rem;text-align: center;" class="testobianco">
         <div class="loginpagege text-center mt-5">
             <!-- Pills content -->
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
-                    <form action="http://tuo-servlet-url/register" method="POST">
+                    <form id="regsiterForm">
                         <p class="fs-1 text mb-5 fadeup" style="font-weight: bold">Registrati</p>
                         <!-- Name input -->
                         <div data-mdb-input-init class="form-outline mb-4 fadeup">
@@ -150,8 +148,41 @@
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"
         ></script>
-        <script src="../js/modeChanger.js"></script>
-
-        <script src="../js/login.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const navbarMenu = document.getElementById("navbar-menu");
+              const username = sessionStorage.getItem("username");
+              const isAdmin = sessionStorage.getItem("tipo") === "admin";
+              const profilePic =
+                sessionStorage.getItem("fotoProfilo") || "../img/default-profile.png";
+      
+              if (username) {
+                navbarMenu.innerHTML = `
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown">
+                                <img src="${profilePic}" alt="Profilo" class="rounded-circle" width="40" height="40">
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="profilo.html">Profilo</a></li>
+                                <li><a class="dropdown-item" href="gioco.html">Gioco</a></li>
+                                <li><a class="dropdown-item" href="how-to-play.html">Come si gioca</a></li>
+                                ${
+                                  isAdmin
+                                    ? '<li><a class="dropdown-item" href="admin-panel.html">Pannello Admin</a></li>'
+                                    : ""
+                                }
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="#" onclick="Auth.logout()">Log Out</a></li>
+                            </ul>
+                        </div>
+                    `;
+              } else {
+                navbarMenu.innerHTML = `
+                        <li class="nav-item"><a class="nav-link" href="accedi.html">Accedi</a></li>
+                        <li class="nav-item"><a class="nav-link" href="registrati.html">Registrati</a></li>
+                    `;
+              }
+            });
+          </script>
     </body>
 </html>

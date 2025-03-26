@@ -4,8 +4,6 @@
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
     />
     <link
       rel="stylesheet"
@@ -21,26 +19,25 @@
     <link rel="stylesheet" href="../css/style-dark.css" />
     <link rel="stylesheet" href="../css/animations.css" />
     <script src="../js/animations.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"
-      integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o="
-      crossorigin="anonymous"
-    ></script>
+    <script src="../js/profile.js"></script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cripsum™ - accedi</title>
+    <title>Color Game - accedi</title>
   </head>
   <body>
     <nav class="navbarutenti navbar navbar-expand-xl">
       <div class="container-fluid">
-        <a class="navbar-brand" href="home">
+        <a class="navbar-brand" href="home.html">
           <img
             src="../img/amongus.jpg"
             height="40px"
             style="border-radius: 4px"
             class="d-inline-block align-middle"
           />
-          <span class="align-middle ms-3 fw-bold" style="color: white"
+          <span
+            class="align-middle ms-3 fw-bold"
+            style="color: rgb(255, 255, 255)"
             >Color Game</span
           >
         </a>
@@ -48,121 +45,147 @@
           class="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-          style="z-index: 1000"
+          data-bs-target="#navbarContent"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="#">Accedi</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="registrati">Registrati</a>
-            </li>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="navbar-menu">
+            <!-- Qui verranno inseriti dinamicamente i link -->
           </ul>
         </div>
       </div>
     </nav>
+
     <div
-      style="max-width: 1920px; margin: auto; padding-top: 7rem"
-      class="testobianco"
+      style="
+        max-width: 1920px;
+        margin: auto;
+        padding-top: 7rem;
+        text-align: center;
+      "
+      class="testobianco fadeup"
     >
-      <div class="profile-container">
-        <h1>Profilo Utente</h1>
-        <div class="profile-info">
+      <div class="container mt-5">
+        <div class="profile-container text-center">
+          <img
+            id="profilePicture"
+            src="../img/default-profile.png"
+            class="rounded-circle"
+            width="150"
+            height="150"
+            alt="Foto Profilo"
+          />
+          <h1 id="username">Caricamento...</h1>
           <p>
-            <strong>Nome Utente:</strong>
-            <span id="username">Caricamento...</span>
+            <strong>ID Utente:</strong> <span id="userId">Caricamento...</span>
           </p>
-          <p><strong>Punteggio:</strong> <span id="score">0</span></p>
-        </div>
 
-        <!-- Modifica nome utente -->
-        <div class="edit-profile">
-          <h2>Modifica Nome Utente</h2>
-          <input type="text" id="newUsername" placeholder="Nuovo Nome Utente" />
-          <button onclick="updateUsername()">Salva</button>
+          <div id="privateInfo" style="display: none">
+            <p><strong>Nome:</strong> <span id="firstName"></span></p>
+            <p><strong>Cognome:</strong> <span id="lastName"></span></p>
+            <p><strong>Email:</strong> <span id="email"></span></p>
+            <p>
+              <strong>Data di nascita:</strong> <span id="birthDate"></span>
+            </p>
+            <button class="btn btn-primary" onclick="openEditPopup()">
+              Modifica Info
+            </button>
+          </div>
         </div>
-
-        <button onclick="logout()">Esci</button>
       </div>
 
-      <script>
-        // Funzione per caricare il profilo dell'utente
-        window.onload = function () {
-          fetch("/profile", {
-            method: "GET",
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              document.getElementById("username").textContent = data.username;
-              document.getElementById("score").textContent = data.score;
-            })
-            .catch((error) =>
-              console.error("Errore nel caricamento del profilo:", error)
-            );
-        };
-
-        // Funzione per aggiornare il nome utente
-        function updateUsername() {
-          const newUsername = document.getElementById("newUsername").value;
-          if (newUsername) {
-            const request = new XMLHttpRequest();
-            request.open("POST", "/updateUsername", true);
-            request.setRequestHeader(
-              "Content-Type",
-              "application/x-www-form-urlencoded"
-            );
-            request.onreadystatechange = function () {
-              if (request.readyState === 4 && request.status === 200) {
-                const response = JSON.parse(request.responseText);
-                if (response.success) {
-                  document.getElementById("username").textContent = newUsername;
-                  alert("Nome utente aggiornato con successo!");
-                } else {
-                  alert("Errore nell'aggiornamento del nome utente");
-                }
-              }
-            };
-            request.send("newUsername=" + newUsername);
-          } else {
-            alert("Inserisci un nuovo nome utente");
-          }
-        }
-
-        // Funzione per gestire il logout
-        function logout() {
-          window.location.href = "/logout"; // Reindirizza alla servlet per il logout
-        }
-      </script>
+      <div id="editPopup" class="modal" tabindex="-1" style="display: none">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modifica Informazioni</h5>
+              <button
+                type="button"
+                class="btn-close"
+                onclick="closeEditPopup()"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <input
+                type="text"
+                id="editFirstName"
+                class="form-control mb-2"
+                placeholder="Nome"
+              />
+              <input
+                type="text"
+                id="editLastName"
+                class="form-control mb-2"
+                placeholder="Cognome"
+              />
+              <input
+                type="email"
+                id="editEmail"
+                class="form-control mb-2"
+                placeholder="Email"
+              />
+              <input type="date" id="editBirthDate" class="form-control mb-2" />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="closeEditPopup()"
+              >
+                Chiudi
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                onclick="saveProfileChanges()"
+              >
+                Salva
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- Pills content -->
-    <footer class="my-5 pt-5 text-muted text-center text-small fadeup">
-      <p class="mb-1 testobianco">
-        Copyright © 2025. Tutti i diritti riservati.
-      </p>
-      <ul class="list-inline">
-        <li class="list-inline-item">
-          <a href="#" class="linkbianco">Privacy</a>
-        </li>
-        <li class="list-inline-item">
-          <a href="#" class="linkbianco">Termini</a>
-        </li>
-        <li class="list-inline-item">
-          <a href="#" class="linkbianco">Supporto</a>
-        </li>
-      </ul>
-    </footer>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-      crossorigin="anonymous"
-    ></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const navbarMenu = document.getElementById("navbar-menu");
+        const username = sessionStorage.getItem("username");
+        const isAdmin = sessionStorage.getItem("tipo") === "admin";
+        const profilePic =
+          sessionStorage.getItem("fotoProfilo") || "../img/default-profile.png";
+
+        if (username) {
+          navbarMenu.innerHTML = `
+                  <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown">
+                          <img src="${profilePic}" alt="Profilo" class="rounded-circle" width="40" height="40">
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                          <li><a class="dropdown-item" href="profilo.html">Profilo</a></li>
+                          <li><a class="dropdown-item" href="gioco.html">Gioco</a></li>
+                          <li><a class="dropdown-item" href="how-to-play.html">Come si gioca</a></li>
+                          ${
+                            isAdmin
+                              ? '<li><a class="dropdown-item" href="admin-panel.html">Pannello Admin</a></li>'
+                              : ""
+                          }
+                          <li><hr class="dropdown-divider"></li>
+                          <li><a class="dropdown-item text-danger" href="#" onclick="Auth.logout()">Log Out</a></li>
+                      </ul>
+                  </div>
+              `;
+        } else {
+          navbarMenu.innerHTML = `
+                  <li class="nav-item"><a class="nav-link" href="accedi.html">Accedi</a></li>
+                  <li class="nav-item"><a class="nav-link" href="registrati.html">Registrati</a></li>
+              `;
+        }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </body>
+  <footer class="my-5 pt-5 text-muted text-center text-small fadeup">
+    <p class="mb-1 testobianco">Copyright © 2025. Tutti i diritti riservati.</p>
+  </footer>
 </html>
