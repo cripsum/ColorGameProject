@@ -1,13 +1,17 @@
 const Auth = (function () {
     const API_URL = "http://localhost:8080/ColorGameProject/rest/auth";
 
-    async function login(email, password) {
+    async function login(event) {
+        event.preventDefault();
+        const email = document.getElementById("loginName").value;
+        const password = document.getElementById("password").value;
         try {
-            const url = `${API_URL}/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+            const url = `${API_URL}/login`;
             const response = await fetch(url, {
                 method: "POST",
                 credentials: "include",
-                headers: { "Content-Type": "application/json" }
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
             });
             const data = await response.json();
 
@@ -21,9 +25,10 @@ const Auth = (function () {
                 sessionStorage.setItem("tipo", data.tipoUtente);
                 sessionStorage.setItem("token", data.token);
                 sessionStorage.setItem("fotoProfilo", data.fotoProfilo);
+                window.location.href = "ColorGameProject/pagine/game.html";
                 return true;
             } else {
-                alert(data.MESSAGGIO);
+                alert(data.messaggio);
                 return false;
             }
         } catch (error) {
@@ -63,13 +68,9 @@ const Auth = (function () {
             });
 
             if (response.ok) {
-                const username = sessionStorage.getItem("username");
-                if (username) {
-                    document.getElementById("header").innerHTML = `<p>Benvenuto, ${username} <button onclick="Auth.logout()">Logout</button></p>`;
-                }
+    
             } else {
                 sessionStorage.clear();
-                document.getElementById("header").innerHTML = `<a href="login.html">Login</a> | <a href="register.html">Registrati</a>`;
             }
         } catch (error) {
             console.error("Errore durante il controllo della sessione:", error);
@@ -83,7 +84,7 @@ const Auth = (function () {
                 credentials: "include"
             });
             sessionStorage.clear();
-            window.location.href = "/login.html";
+            window.location.href = "ColorGameProject/pagine/login.html";
         } catch (error) {
             console.error("Errore durante il logout:", error);
         }
@@ -99,20 +100,7 @@ const Auth = (function () {
 
 document.addEventListener("DOMContentLoaded", Auth.checkSession);
 document.addEventListener("DOMContentLoaded", function () {
-    const loginForm = document.getElementById("loginForm");
-    if (loginForm) {
-        loginForm.addEventListener("submit", async function (event) {
-            event.preventDefault();
-            const email = document.getElementById("loginName").value;
-            const password = document.getElementById("password").value;
-            const success = await Auth.login(email, password);
-            if (success) {
-                window.location.href = "home.html";
-            } else {
-                alert("Credenziali errate o errore nel server.");
-            }
-        });
-    }
+
     
     const registerForm = document.getElementById("registerForm");
     if (registerForm) {

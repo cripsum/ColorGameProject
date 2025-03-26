@@ -21,8 +21,12 @@ import strumenti.JwtToken;
 public class AuthService implements NomiParametri, Messaggi {
 	@POST
 	@Path("/login")
-	public Response login(@QueryParam(EMAIL) String email, @QueryParam(PASSWORD) String password, @Context HttpServletRequest request) {
+	public Response login(String jsonInput, @Context HttpServletRequest request) {	
 		try {
+			Gson gson = new Gson();
+			JsonObject obj = gson.fromJson(jsonInput, JsonObject.class);
+			String email = obj.get(EMAIL).getAsString();
+			String password = obj.get(PASSWORD).getAsString();
 			Utente a = Utente.getUserFromEmail(email);
 			if (a != null) {
 				if (a.getPassword().equals(password)) {
@@ -50,10 +54,14 @@ public class AuthService implements NomiParametri, Messaggi {
 			}
 		} catch (SQLException e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_SQL+" "+e.getMessage())).build();
-		} catch (Exception e) {
+		} catch(NullPointerException e) {
+			return Response.status(Response.Status.BAD_REQUEST).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_RICHIESTA_NON_VALIDA)).build();
+		}
+		catch(Exception e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_GENERICO+" " + e.getMessage())).build();
 		}
 	}
+
 	
 	@POST
 	@Path("/register")
