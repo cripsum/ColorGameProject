@@ -101,7 +101,7 @@ public class Utente implements NomiParametri, Messaggi {
 			return false;
 		}
 		String idUtente = strumenti.Strumenti.generaId();
-		String sqlQuery = "INSERT INTO utente (" + DB_IDUTENTE + "," + DB_USERNAME + "," + DB_NOME + "," + DB_COGNOME + "," + DB_PASSWORD + "," + DB_EMAIL + "," + DB_DATA_NASCITA + "," + DB_FOTO_PROFILO + ") VALUES (?,?,?,?,?,?,?,?)";
+		String sqlQuery = "INSERT INTO utente (" + DB_IDUTENTE + "," + DB_USERNAME + "," + DB_NOME + "," + DB_COGNOME + "," + DB_PASSWORD + "," + DB_EMAIL + "," + DB_DATA_NASCITA + "," + DB_FOTO_PROFILO +"," + DB_TIPOUTENTE +") VALUES (?,?,?,?,?,?,?,?,?)";
 		try (Connection conn = DBmanager.getConnection();PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
 			pstmt.setString(1, idUtente);
 			pstmt.setString(2, username);
@@ -116,6 +116,7 @@ public class Utente implements NomiParametri, Messaggi {
 			} else {
 			    pstmt.setBytes(8, new byte[0]);
 			}
+			pstmt.setString(9, "utente");
 			pstmt.executeUpdate();
 			return true;
 		}
