@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 14, 2025 alle 23:00
+-- Creato il: Mar 26, 2025 alle 10:00
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `zanitestgame`
+-- Database: `colorgameproject`
 --
 
 -- --------------------------------------------------------
@@ -28,8 +28,9 @@ SET time_zone = "+00:00";
 -- (Vedi sotto per la vista effettiva)
 --
 CREATE TABLE `classifica` (
-`nome` varchar(20)
-,`punteggio` int(8)
+`idUtente` char(8)
+,`username` varchar(50)
+,`MAX(partita.punteggio)` int(8)
 );
 
 -- --------------------------------------------------------
@@ -115,7 +116,7 @@ INSERT INTO `utente` (`idUtente`, `username`, `password`, `nome`, `cognome`, `em
 --
 DROP TABLE IF EXISTS `classifica`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `classifica`  AS SELECT `utente`.`nome` AS `nome`, `partita`.`punteggio` AS `punteggio` FROM (`utente` join `partita`) WHERE `utente`.`utenteBannato` = 0 AND `utente`.`idUtente` = `partita`.`idUtente` ORDER BY `partita`.`punteggio` DESC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `classifica`  AS   (select distinct `utente`.`idUtente` AS `idUtente`,`utente`.`username` AS `username`,max(`partita`.`punteggio`) AS `MAX(partita.punteggio)` from (`utente` join `partita`) where `utente`.`idUtente` = `partita`.`idUtente` and `utente`.`utenteBannato` = 0 group by `utente`.`idUtente` order by `partita`.`punteggio` desc)  ;
 
 --
 -- Indici per le tabelle scaricate
