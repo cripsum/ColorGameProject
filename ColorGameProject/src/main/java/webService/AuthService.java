@@ -25,6 +25,8 @@ public class AuthService implements NomiParametri, Messaggi {
 		try {
 			Utente a = Utente.getUserFromEmail(email);
 			if (a != null) {
+				System.out.println(password);
+				System.out.println(a.getPassword());
 				if (a.getPassword().equals(password)) {
 					if (a.isUtenteBannato()) {
 						return Response.status(Response.Status.FORBIDDEN).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_UTENTE_BANNATO)).build();
@@ -79,13 +81,14 @@ public class AuthService implements NomiParametri, Messaggi {
 	            return Response.status(Response.Status.BAD_REQUEST).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_EMAIL_ESISTENTE)).build();
 	        }
 	        
-	        boolean success = Utente.addUtente(username, password, nome, cognome, email, dataNascita);
+	        boolean success = Utente.addUtente(username, nome, cognome,password, email, dataNascita);
 	        if (success) {
 	            return Response.status(Response.Status.CREATED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, SUCCESSO_INSERIMENTO)).build();
 	        } else {
 	            return Response.status(Response.Status.BAD_REQUEST).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_INSERIMENTO)).build();
 	        }
 	    } catch (Exception e) {
+	    	System.out.println(e.getMessage());
 	        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_GENERICO)).build();
 	    }
 	}
