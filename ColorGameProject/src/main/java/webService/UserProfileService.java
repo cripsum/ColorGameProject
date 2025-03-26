@@ -98,7 +98,7 @@ public class UserProfileService implements Messaggi, NomiParametri {
 					.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_SQL + " " + e.getMessage())).build();
 		} catch (Exception e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.entity(String.format("{\"%s\":\"%s\"}", ERRORE, ERRORE_GENERICO + " " + e.getMessage())).build();
+					.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_GENERICO)).build();
 		}
 	}
 			

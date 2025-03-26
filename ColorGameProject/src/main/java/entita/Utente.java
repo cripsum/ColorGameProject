@@ -164,7 +164,27 @@ public class Utente implements NomiParametri, Messaggi {
 		}
 	}
 	
-	//metodi getter e setter
+	public static boolean setTipo(String idUtente, String tipo) throws SQLException {
+		String sqlQuery = "UPDATE utente SET " + DB_TIPOUTENTE + " = ? WHERE " + DB_IDUTENTE + " = ?";
+		try (Connection conn = DBmanager.getConnection();PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+			pstmt.setString(1, tipo);
+			pstmt.setString(2, idUtente);
+			pstmt.executeUpdate();
+			return true;
+		}
+	}
+	
+	public static boolean setBannato(String idUtente, boolean bannato) throws SQLException {
+		String sqlQuery = "UPDATE utente SET " + DB_UTENTE_BANNATO + " = ? WHERE " + DB_IDUTENTE + " = ?";
+		try (Connection conn = DBmanager.getConnection();PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+			pstmt.setBoolean(1, bannato);
+			pstmt.setString(2, idUtente);
+			pstmt.executeUpdate();
+			return true;
+		}
+	}
+	
+	//metodi getter
 	public String getIdUtente() {
 		return idUtente;
 	}
@@ -173,48 +193,24 @@ public class Utente implements NomiParametri, Messaggi {
 		return username;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public String getPassword() {
 		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getNome() {
 		return nome;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
 	public String getCognome() {
 		return cognome;
-	}
-
-	public void setCognome(String cognome) {
-		this.cognome = cognome;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public Date getDataNascita() {
 		return dataNascita;
-	}
-
-	public void setDataNascita(Date dataNascita) {
-		this.dataNascita = dataNascita;
 	}
 
 	public LocalDateTime getDataRegistrazione() {
@@ -225,16 +221,8 @@ public class Utente implements NomiParametri, Messaggi {
 		return fotoProfilo;
 	}
 
-	public void setFotoProfilo(Blob fotoProfilo) {
-		this.fotoProfilo = fotoProfilo;
-	}
-
 	public String getTipo() {
 		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
 	}
 
 	public boolean isUtenteBannato() {

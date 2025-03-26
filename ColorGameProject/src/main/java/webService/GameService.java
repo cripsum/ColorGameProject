@@ -32,7 +32,7 @@ public class GameService implements Messaggi, NomiParametri {
 					.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, SUCCESSO_PARTITA_TROVATA)).build();
 		}
 		return Response.status(Response.Status.NOT_FOUND)
-				.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_PARTITA_NON_TROVATA)).build();
+				.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_PARTITA_NON_TROVATA)).build();
 	}
 
 	@POST
@@ -59,7 +59,7 @@ public class GameService implements Messaggi, NomiParametri {
 
 		if (corX < 0 || corY < 0) {
 			return Response.status(Response.Status.BAD_REQUEST)
-					.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_RICHIESTA_NON_VALIDA)).build();
+					.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_RICHIESTA_NON_VALIDA)).build();
 		}
 
 		if (GameManager.checkAnswer(tok.getIdUtente(), corX, corY)) {
@@ -83,8 +83,9 @@ public class GameService implements Messaggi, NomiParametri {
 					.entity(new Gson().toJson(GameManager.getPartita(tok.getIdUtente()))).build();
 		}
 		return Response.status(Response.Status.NOT_FOUND)
-				.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_PARTITA_NON_TROVATA)).build();
+				.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_PARTITA_NON_TROVATA)).build();
 	}
+	
 	
 	@GET
 	@Path("/getClassifica")
@@ -95,12 +96,12 @@ public class GameService implements Messaggi, NomiParametri {
 
 			if (classifica.isEmpty()) {
 				return Response.status(Response.Status.NOT_FOUND)
-						.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_CLASSIFICA_VUOTA)).build();
+						.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_CLASSIFICA_VUOTA)).build();
 			}
 			return Response.status(Response.Status.OK).entity(new Gson().toJson(classifica)).build();
 		} catch (SQLException e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_SQL + " " + e.getMessage())).build();
+					.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_SQL + " " + e.getMessage())).build();
 		}
 	}
 
