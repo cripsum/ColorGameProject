@@ -55,14 +55,11 @@ async function profilo() {
 
 function openEditPopup() {
   document.getElementById("editPopup").style.display = "block";
-  document.getElementById("editFirstName").value =
-    document.getElementById("firstName").textContent;
-  document.getElementById("editLastName").value =
-    document.getElementById("lastName").textContent;
-  document.getElementById("editEmail").value =
-    document.getElementById("email").textContent;
-  document.getElementById("editBirthDate").value =
-    document.getElementById("birthDate").textContent;
+  document.getElementById("editUsername").placeholder = document.getElementById("username").textContent;
+  document.getElementById("editFirstName").placeholder = document.getElementById("firstName").textContent;
+  document.getElementById("editLastName").placeholder = document.getElementById("lastName").textContent;
+  document.getElementById("editEmail").placeholder = document.getElementById("email").textContent;
+  document.getElementById("editBirthDate").placeholder = document.getElementById("birthDate").textContent;
 }
 
 function closeEditPopup() {
@@ -70,35 +67,41 @@ function closeEditPopup() {
 }
 
 function saveProfileChanges() {
-  const updatedData = {
-    nome: document.getElementById("editFirstName").value,
-    cognome: document.getElementById("editLastName").value,
-    email: document.getElementById("editEmail").value,
-    dataNascita: document.getElementById("editBirthDate").value,
-  };
+  const token = sessionStorage.getItem("token");
 
-  fetch("/updateProfile", {
+  const updatedData = {};
+
+  if (document.getElementById("editUsername").value!== "") {
+    updatedData.username = document.getElementById("editUsername").value;
+  }
+  
+  if (document.getElementById("editPassword").value !== "") {
+    updatedData.password = document.getElementById("editPassword").value;
+  }
+  
+  if (document.getElementById("editFirstName").value !== "") {
+    updatedData.nome = document.getElementById("editFirstName").value;
+  }
+  
+  if (document.getElementById("editLastName").value !== "") {
+    updatedData.cognome = document.getElementById("editLastName").value;
+  }
+  
+  if (document.getElementById("editEmail").value !== "") {
+    updatedData.email = document.getElementById("editEmail").value;
+  }
+  
+  if (document.getElementById("editBirthDate").value !== "") {
+    updatedData.dataNascita = document.getElementById("editBirthDate").value;
+  }
+
+  const response = fetch(`${API_URL}/userProfile/updateProfile`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
     body: JSON.stringify(updatedData),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        document.getElementById("firstName").textContent =
-          updatedData.nome;
-        document.getElementById("lastName").textContent =
-          updatedData.cognome;
-        document.getElementById("email").textContent = updatedData.email;
-        document.getElementById("birthDate").textContent =
-          updatedData.dataNascita;
-        alert("Informazioni aggiornate con successo!");
-        closeEditPopup();
-      } else {
-        alert("Errore nell'aggiornamento delle informazioni.");
-      }
-    })
-    .catch((error) =>
-      console.error("Errore durante l'aggiornamento:", error)
-    );
+  });
+  
+  alert("Profilo aggiornato con successo! riloggati per rendere effettive le modifiche.");
+  location.reload();
 }

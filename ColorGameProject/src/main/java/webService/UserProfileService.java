@@ -78,23 +78,43 @@ public class UserProfileService implements Messaggi, NomiParametri {
 		Gson gson = new Gson();
 		JsonObject obj = gson.fromJson(jsonInput, JsonObject.class);
 
-		String nome = obj.get(NOME).getAsString();
-		String cognome = obj.get(COGNOME).getAsString();
-		String dataNascita = obj.get(DATA_NASCITA).getAsString();
-		String fotoProfilo = obj.get(FOTO_PROFILO).getAsString();
-		String email = obj.get(EMAIL).getAsString();
-		String password = obj.get(PASSWORD).getAsString();
-		String username = obj.get(USERNAME).getAsString();
+		String nome = null;
+		String cognome = null;
+		String dataNascita = null;
+		String fotoProfilo = null;
+		String email = null;
+		String password = null;
+		String username = null;
+		if (obj.has(NOME))
+			nome = obj.get(NOME).getAsString();
+		if (obj.has(COGNOME))
+			cognome = obj.get(COGNOME).getAsString();
+		if (obj.has(DATA_NASCITA))
+			dataNascita = obj.get(DATA_NASCITA).getAsString();
+		if (obj.has(FOTO_PROFILO))
+			fotoProfilo = obj.get(FOTO_PROFILO).getAsString();
+		if (obj.has(EMAIL))
+			email = obj.get(EMAIL).getAsString();
+		if (obj.has(PASSWORD))
+			password = obj.get(PASSWORD).getAsString();
+		if (obj.has(USERNAME))
+			username = obj.get(USERNAME).getAsString();
 
-		if (!Strumenti.isEmailValid(email)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_FORMATO_MAIL)).build();
-        }
-        if (Strumenti.usernameAccountEsistente(username)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_USERNAME_ESISTENTE)).build();
-        }
-        if (Strumenti.emailAccountEsistente(email)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_EMAIL_ESISTENTE)).build();
-        }
+		if(email!=null) {
+			if (!Strumenti.isEmailValid(email)) {
+	            return Response.status(Response.Status.BAD_REQUEST).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_FORMATO_MAIL)).build();
+	        }
+			 if (Strumenti.emailAccountEsistente(email) || email == null) {
+		            return Response.status(Response.Status.BAD_REQUEST).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_EMAIL_ESISTENTE)).build();
+		        }
+		}
+		if(username!=null) {
+			if (Strumenti.usernameAccountEsistente(username) || username == null) {
+				return Response.status(Response.Status.BAD_REQUEST)
+						.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_USERNAME_ESISTENTE)).build();
+			}
+		}
+       
 
 		try {
 			Utente.updateUtente(tok.getIdUtente(), email, password, username, nome, cognome, dataNascita, fotoProfilo);
