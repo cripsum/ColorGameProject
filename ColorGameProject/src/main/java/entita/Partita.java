@@ -1,12 +1,8 @@
 package entita;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import Interfacce.Messaggi;
 import Interfacce.NomiParametri;
-import strumenti.DBmanager;
 import strumenti.Strumenti;
 import strumenti.TurnoPartita;
 
@@ -33,23 +29,7 @@ public class Partita implements NomiParametri, Messaggi {
 		this.dataEOraInizio = LocalDateTime.now();
 		this.punteggio = 0;
 		
-	}
-	
-	public void saveOnDB() {
-		String idUtente = strumenti.Strumenti.generaId();
-		String sqlQuery = "INSERT INTO partita (" + DB_IDPARTITA + ", " + DB_DATAEORAINIZIO + ", " + DB_DATAEORAFINE + ", " + DB_IDUTENTE + ", " + DB_PUNTEGGIO + ") VALUES (?, ?, ?, ?, ?)";
-		try (Connection conn = DBmanager.getConnection();PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
-			
-			pstmt.setString(1, idPartita);
-			pstmt.setString(2, dataEOraInizio.toString());
-			pstmt.setString(3, LocalDateTime.now().toString());
-			pstmt.setString(4, idUtente);
-			pstmt.setInt(5, punteggio);
-		}
-		catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-	}
+	}	
 
 	public String getIdPartita() {
 		return idPartita;
@@ -91,8 +71,8 @@ public class Partita implements NomiParametri, Messaggi {
 		this.punteggio = punteggio;
 	}
 	
-	public TurnoPartita newTurno() {
-		return new TurnoPartita(punteggio);
+	public void newTurno() {
+		turno = new TurnoPartita(punteggio);
 	}
 	
 	public TurnoPartita getTurno() {

@@ -73,7 +73,6 @@ const Auth = (function () {
             const token = sessionStorage.getItem("token");
             if (!token) {
                 console.log("Nessun token trovato");
-                sessionStorage.clear();
                 return;
             }
     

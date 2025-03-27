@@ -1,5 +1,6 @@
 package strumenti;
 
+import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -86,5 +87,9 @@ public abstract class Strumenti implements NomiParametri, Messaggi {
             e.printStackTrace();
             return null;
         }
+	}
+	
+	public static String colorToHex(Color color) {
+		return String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
 	}
 }

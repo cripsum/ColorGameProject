@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import Interfacce.Messaggi;
 import Interfacce.NomiParametri;
@@ -50,8 +51,10 @@ public class GameService implements Messaggi, NomiParametri {
 
 	@POST
 	@Path("/checkAnswer")
-	public Response checkAnswer(@QueryParam(CORDX) int corX, @QueryParam(CORDY) int corY,
-			@Context HttpHeaders headers) {
+	public Response checkAnswer(String jsonInput, @Context HttpHeaders headers) {
+		JsonObject obj = new Gson().fromJson(jsonInput, JsonObject.class);
+		int corX = obj.get("x").getAsInt();
+		int corY = obj.get("y").getAsInt();
 		Response verifica = JwtToken.verificaToken(headers);
 		if (verifica.getStatus() != 200)
 			return verifica;
@@ -61,13 +64,27 @@ public class GameService implements Messaggi, NomiParametri {
 			return Response.status(Response.Status.BAD_REQUEST)
 					.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_RICHIESTA_NON_VALIDA)).build();
 		}
-
-		if (GameManager.checkAnswer(tok.getIdUtente(), corX, corY)) {
-			return Response.status(Response.Status.OK)
-					.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, RISPOSTA_CORRETTA)).build();
+		if (!GameManager.cercaPartita(tok.getIdUtente())) {
+			return Response.status(Response.Status.NOT_FOUND)
+					.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_PARTITA_NON_TROVATA)).build();
 		}
-		return Response.status(Response.Status.OK).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, RISPOSTA_ERRATA))
-				.build();
+		
+		int punteggio = GameManager.getPartita(tok.getIdUtente()).getPunteggio();
+		JsonObject obj1 = new JsonObject();
+		if (GameManager.checkAnswer(tok.getIdUtente(), corX, corY)) {
+			obj1.addProperty(MESSAGGIO, RISPOSTA_CORRETTA);
+			obj1.addProperty(PUNTEGGIO, GameManager.getPartita(tok.getIdUtente()).getPunteggio());
+			obj1.addProperty("bool", true);
+			System.out.println(obj1.toString());
+			return Response.status(Response.Status.OK)
+					.entity(obj1.toString()).build();
+		}
+		obj1.addProperty(MESSAGGIO, RISPOSTA_ERRATA);
+		obj1.addProperty(PUNTEGGIO, punteggio);
+		obj1.addProperty("bool", false);
+		System.out.println(obj1.toString());
+		return Response.status(Response.Status.OK)
+				.entity(obj1.toString()).build();
 	}
 
 	@POST
@@ -79,8 +96,17 @@ public class GameService implements Messaggi, NomiParametri {
 		Token tok = (Token) verifica.getEntity();
 
 		if (GameManager.cercaPartita(tok.getIdUtente())) {
+			JsonObject obj = new JsonObject();
+			obj.addProperty(MESSAGGIO, SUCCESSO_PARTITA_TROVATA);
+			obj.addProperty("punteggio", GameManager.getPartita(tok.getIdUtente()).getPunteggio());
+			obj.addProperty("dimGriglia", GameManager.getPartita(tok.getIdUtente()).getTurno().getDimGriglia());
+			obj.addProperty("corX", GameManager.getPartita(tok.getIdUtente()).getTurno().getCorX());
+			obj.addProperty("corY", GameManager.getPartita(tok.getIdUtente()).getTurno().getCorY());
+			obj.addProperty("colore", Strumenti.colorToHex(GameManager.getPartita(tok.getIdUtente()).getTurno().getColore()));
+			obj.addProperty("coloreDiverso", Strumenti.colorToHex(GameManager.getPartita(tok.getIdUtente()).getTurno().getColoreDiverso()));
+			System.out.println(obj.toString());
 			return Response.status(Response.Status.OK)
-					.entity(new Gson().toJson(GameManager.getPartita(tok.getIdUtente()))).build();
+					.entity(obj.toString()).build();
 		}
 		return Response.status(Response.Status.NOT_FOUND)
 				.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_PARTITA_NON_TROVATA)).build();

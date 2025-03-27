@@ -27,14 +27,14 @@ public interface NomiParametri {
 	public static final String DB_UTENTE_BANNATO = "utenteBannato";
 	//nomi parametri partita
 	public static final String IDPARTITA = "idPartita";
-	public static final String DATAEORAFINE = "data";
-	public static final String DATAEORAINIZIO = "data";
+	public static final String DATAEORAFINE = "dataEOraFine";
+	public static final String DATAEORAINIZIO = "dataEOraInizio";
 	public static final String PARTITAIDUTENTE = "idutente";
 	public static final String PUNTEGGIO = "punteggio";
 	//nomi parametri db tabella partita
 	public static final String DB_IDPARTITA = "idPartita";
-	public static final String DB_DATAEORAFINE = "data";
-	public static final String DB_DATAEORAINIZIO = "data";
+	public static final String DB_DATAEORAFINE = "dataEOraFine";
+	public static final String DB_DATAEORAINIZIO = "dataEOraInizio";
 	public static final String DB_PARTITAIDUTENTE = "idutente";
 	public static final String DB_PUNTEGGIO = "punteggio";
 
