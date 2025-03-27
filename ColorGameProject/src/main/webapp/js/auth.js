@@ -6,8 +6,7 @@ const Auth = (function () {
         const email = document.getElementById("loginName").value;
         const password = document.getElementById("password").value;
         try {
-            const url = `${API_URL}/login`;
-            const response = await fetch(url, {
+            const response = await fetch(`${API_URL}/login`, {
                 method: "POST",
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
@@ -36,7 +35,16 @@ const Auth = (function () {
         }
     }
 
-    async function register(userData) {
+    async function register(event) {
+        event.preventDefault();
+        const userData = {
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+            username: document.getElementById("username").value,
+            nome: document.getElementById("nome").value,
+            cognome: document.getElementById("cognome").value,
+            dataNascita: document.getElementById("dataDiNascita").value
+        };
         try {
             const response = await fetch(`${API_URL}/register`, {
                 method: "POST",
@@ -47,10 +55,10 @@ const Auth = (function () {
             const data = await response.json();
 
             if (response.ok) {
-                alert("Registrazione riuscita! Ora puoi accedere.");
+                alert(data.messaggio);
                 return true;
             } else {
-                alert(data.MESSAGGIO);
+                alert(data.messaggio);
                 return false;
             }
         } catch (error) {
@@ -59,38 +67,37 @@ const Auth = (function () {
         }
     }
 
+    
     async function checkSession() {
-        async function checkSession() {
-            try {
-                const token = sessionStorage.getItem("token");
-                if (!token) {
-                    console.log("Nessun token trovato");
-                    sessionStorage.clear();
-                    return;
-                }
-        
-                const response = await fetch(`${API_URL}/check`, {
-                    method: "POST",
-                    credentials: "include",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    }
-                });
-        
-                if (!response.ok) {
-                    console.log(response.json().messaggio);
-                    sessionStorage.clear();
-                } else {
-                    console.log("Sessione valida.");
-                }
-            } catch (error) {
-                console.error("Errore durante il controllo della sessione:", error);
+        try {
+            const token = sessionStorage.getItem("token");
+            if (!token) {
+                console.log("Nessun token trovato");
                 sessionStorage.clear();
+                return;
             }
+    
+            const response = await fetch(`${API_URL}/check`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+    
+            if (!response.ok) {
+                console.log(response.json().messaggio);
+                sessionStorage.clear();
+            } else {
+                console.log("Sessione valida.");
+            }
+        } catch (error) {
+            console.error("Errore durante il controllo della sessione:", error);
+            sessionStorage.clear();
         }
-        
     }
+        
 
     async function logout() {
         try {
@@ -110,25 +117,3 @@ const Auth = (function () {
 })();
 
 document.addEventListener("DOMContentLoaded", Auth.checkSession);
-document.addEventListener("DOMContentLoaded", function () {
-
-    
-    const registerForm = document.getElementById("registerForm");
-    if (registerForm) {
-        registerForm.addEventListener("submit", async function (event) {
-            event.preventDefault();
-            const userData = {
-                email: document.getElementById("registerEmail").value,
-                password: document.getElementById("registerPassword").value,
-                username: document.getElementById("registerUsername").value,
-                nome: document.getElementById("registerNome").value,
-                cognome: document.getElementById("registerCognome").value,
-                dataNascita: document.getElementById("registerDataNascita").value
-            };
-            const success = await Auth.register(userData);
-            if (success) {
-                window.location.href = "login.html";
-            }
-        });
-    }
-});
