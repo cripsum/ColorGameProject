@@ -113,14 +113,4 @@ public class AuthService implements NomiParametri, Messaggi {
 			return Response.status(Response.Status.UNAUTHORIZED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_NON_AUTORIZZATO)).build();
 		}
 	}
-	
-	@POST
-	@Path("/logout")
-	public Response logout(@Context HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			session.invalidate();
-		}
-		return Response.ok().build();
-	}
 }

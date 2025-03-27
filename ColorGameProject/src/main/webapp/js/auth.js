@@ -14,7 +14,6 @@ const Auth = (function () {
                 body: JSON.stringify({ email, password })
             });
             const data = await response.json();
-            console.log(data);
             if (response.ok) {
                 sessionStorage.setItem("idUtente", data.idUtente);
                 sessionStorage.setItem("username", data.username);
@@ -25,7 +24,7 @@ const Auth = (function () {
                 sessionStorage.setItem("tipo", data.tipoUtente);
                 sessionStorage.setItem("token", data.token);
                 sessionStorage.setItem("fotoProfilo", data.fotoProfilo);
-                //window.location.href = "ColorGameProject/pagine/game.html";
+                window.location.href = "ColorGameProject/pagine/game.html";
                 return true;
             } else {
                 alert(data.messaggio);
@@ -61,30 +60,42 @@ const Auth = (function () {
     }
 
     async function checkSession() {
-        try {
-            const response = await fetch(`${API_URL}/check`, {
-                method: "POST",
-                credentials: "include"
-            });
-
-            if (response.ok) {
-    
-            } else {
+        async function checkSession() {
+            try {
+                const token = sessionStorage.getItem("token");
+                if (!token) {
+                    console.log("Nessun token trovato");
+                    sessionStorage.clear();
+                    return;
+                }
+        
+                const response = await fetch(`${API_URL}/check`, {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+        
+                if (!response.ok) {
+                    console.log(response.json().messaggio);
+                    sessionStorage.clear();
+                } else {
+                    console.log("Sessione valida.");
+                }
+            } catch (error) {
+                console.error("Errore durante il controllo della sessione:", error);
                 sessionStorage.clear();
             }
-        } catch (error) {
-            console.error("Errore durante il controllo della sessione:", error);
         }
+        
     }
 
     async function logout() {
         try {
-            await fetch(`${API_URL}/logout`, {
-                method: "POST",
-                credentials: "include"
-            });
             sessionStorage.clear();
-            window.location.href = "ColorGameProject/pagine/login.html";
+            window.location.href = "ColorGameProject/pagine/home.html";
         } catch (error) {
             console.error("Errore durante il logout:", error);
         }
@@ -94,7 +105,7 @@ const Auth = (function () {
         login,
         register,
         checkSession,
-        logout
+        logout,
     };
 })();
 

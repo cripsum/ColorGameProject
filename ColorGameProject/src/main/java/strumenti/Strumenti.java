@@ -81,7 +81,6 @@ public abstract class Strumenti implements NomiParametri, Messaggi {
             while ((bytesRead = is.read(buffer)) != -1) {
                 os.write(buffer, 0, bytesRead);
             }
-            System.out.println("data:image/png;base64," + Base64.getEncoder().encodeToString(os.toByteArray()));
             return "data:image/png;base64," + Base64.getEncoder().encodeToString(os.toByteArray());
         } catch (Exception e) {
             e.printStackTrace();
