@@ -116,4 +116,4 @@ const Auth = (function () {
     };
 })();
 
-document.addEventListener("DOMContentLoaded", Auth.checkSession);
+document.addEventListener("DOMContentLoaded", Auth.checkSession());
