@@ -23,7 +23,7 @@ const Auth = (function () {
                 sessionStorage.setItem("tipo", data.tipoUtente);
                 sessionStorage.setItem("token", data.token);
                 sessionStorage.setItem("fotoProfilo", data.fotoProfilo);
-                window.location.href = "/game.html";
+                window.location.href = "game.html";
                 return true;
             } else {
                 alert(data.messaggio);

@@ -42,7 +42,14 @@ public abstract class JwtToken implements Interfacce.Messaggi, Interfacce.NomiPa
 	}
 	
 	public static Response verificaToken(HttpHeaders headers) {
-		String token = headers.getHeaderString(TOKEN);
+		String token = headers.getHeaderString("Authorization");
+	    if (token == null || !token.startsWith("Bearer ")) {
+	        return Response.status(Response.Status.UNAUTHORIZED)
+	                .entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_TOKEN_MANCANTE))
+	                .build();
+	    }
+
+	    token = token.substring(7);
 		if (token == null) {
 			return Response.status(Response.Status.UNAUTHORIZED)
 					.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_TOKEN_MANCANTE)).build();

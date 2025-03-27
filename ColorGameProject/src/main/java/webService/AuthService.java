@@ -9,7 +9,6 @@ import Interfacce.Messaggi;
 import Interfacce.NomiParametri;
 import entita.Utente;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import strumenti.Strumenti;
