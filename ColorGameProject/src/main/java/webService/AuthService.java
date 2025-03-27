@@ -100,17 +100,23 @@ public class AuthService implements NomiParametri, Messaggi {
 	    }
 	}
 	
-	@POST
+	@GET
 	@Path("/check")
-	public Response check(@Context HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if(session == null) {
-			return Response.status(Response.Status.UNAUTHORIZED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_NON_AUTORIZZATO)).build();
-		}
-		if (JwtToken.verifyToken((String) session.getAttribute(TOKEN)) != null) {
-			return Response.ok().build();
-		} else {
-			return Response.status(Response.Status.UNAUTHORIZED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_NON_AUTORIZZATO)).build();
-		}
+	public Response check(@Context HttpHeaders headers) {
+		String token = headers.getHeaderString("Authorization");
+	    if (token == null || !token.startsWith("Bearer ")) {
+	        return Response.status(Response.Status.UNAUTHORIZED)
+	                .entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_TOKEN_MANCANTE))
+	                .build();
+	    }
+
+	    token = token.substring(7);
+	    if (JwtToken.verifyToken(token) != null) {
+	        return Response.ok(Strumenti.messaggioSempliceJSON(MESSAGGIO,SUCCESSO_VERIFICA )).build();
+	    } else {
+	        return Response.status(Response.Status.UNAUTHORIZED)
+	                .entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_TOKEN_NON_VALIDO))
+	                .build();
+	    }
 	}
 }

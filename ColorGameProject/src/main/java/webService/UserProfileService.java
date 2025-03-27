@@ -28,35 +28,43 @@ public class UserProfileService implements Messaggi, NomiParametri {
 		try {
 			Utente a = Utente.getUserFromId(tok.getIdUtente());
 			if (a != null) {
-				return Response.status(Response.Status.OK).entity(a).build();
+				JsonObject obj = new JsonObject();
+				obj.addProperty(IDUTENTE, a.getIdUtente());
+				obj.addProperty(USERNAME, a.getUsername());
+				obj.addProperty(NOME, a.getNome());
+				obj.addProperty(COGNOME, a.getCognome());
+				obj.addProperty(DATA_NASCITA, a.getDataNascita().toString());
+				obj.addProperty(FOTO_PROFILO, Strumenti.fotoProfiloToBase64(a.getFotoProfilo()));
+				obj.addProperty(EMAIL, a.getEmail());
+				return Response.status(Response.Status.OK).entity(obj).build();
 			}
 			return Response.status(Response.Status.NOT_FOUND)
-					.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_UTENTE_NON_TROVATO)).build();
+					.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_UTENTE_NON_TROVATO)).build();
 		}catch (Exception e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_GENERICO + " " + e.getMessage())).build();
+					.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_GENERICO + " " + e.getMessage())).build();
 		}
 		
 	}
 	
 	@GET
 	@Path("/getPublicProfile")
-	public Response getPublicProfile(@Context HttpHeaders headers, @QueryParam("idUtente") String idUtente) {
+	public Response getPublicProfile(@Context HttpHeaders headers, @QueryParam(IDUTENTE) String idUtente) {
 		try {
 			Utente a = Utente.getUserFromId(idUtente);
 			if (a != null) {
 				JsonObject obj = new JsonObject();
 				obj.addProperty(IDUTENTE, a.getIdUtente());
 				obj.addProperty(USERNAME, a.getUsername());
-				obj.addProperty(FOTO_PROFILO, a.getFotoProfilo().toString());
+				obj.addProperty(FOTO_PROFILO, Strumenti.fotoProfiloToBase64(a.getFotoProfilo()));
 				
 				return Response.status(Response.Status.OK).entity(obj.toString()).build();
 			}
 			return Response.status(Response.Status.NOT_FOUND)
-					.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_UTENTE_NON_TROVATO)).build();
+					.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_UTENTE_NON_TROVATO)).build();
 		}catch (Exception e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_GENERICO + " " + e.getMessage())).build();
+					.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_GENERICO + " " + e.getMessage())).build();
 		}
 		
 	}
@@ -95,10 +103,10 @@ public class UserProfileService implements Messaggi, NomiParametri {
 			return Response.status(Response.Status.OK).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, SUCCESSO_MODIFICHE_EFFETTUATE)).build();
 		} catch (SQLException e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_SQL + " " + e.getMessage())).build();
+					.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_SQL + " " + e.getMessage())).build();
 		} catch (Exception e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.entity(Strumenti.messaggioSempliceJSON(ERRORE, ERRORE_GENERICO)).build();
+					.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_GENERICO)).build();
 		}
 	}
 			

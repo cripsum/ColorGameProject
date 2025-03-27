@@ -1,96 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" />
     <link rel="icon" href="../img/Susremaster.png" type="image/png" />
     <link rel="shortcut icon" href="../img/Susremaster.png" type="image/png" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Poppins"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/style-dark.css" />
     <link rel="stylesheet" href="../css/animations.css" />
     <script src="../js/animations.js"></script>
     <script src="../js/profile.js"></script>
+    <script src="../js/header.js"></script>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Color Game - accedi</title>
+    <title>ColorGame</title>
   </head>
   <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <nav class="navbarutenti navbar navbar-expand-xl">
       <div class="container-fluid">
         <a class="navbar-brand" href="home.html">
-          <img
-            src="../img/amongus.jpg"
-            height="40px"
-            style="border-radius: 4px"
-            class="d-inline-block align-middle"
-          />
-          <span
-            class="align-middle ms-3 fw-bold"
-            style="color: rgb(255, 255, 255)"
-            >Color Game</span
-          >
+          <img src="../img/amongus.jpg" height="40px" style="border-radius: 4px" class="d-inline-block align-middle" />
+          <span class="align-middle ms-3 fw-bold" style="color: rgb(255, 255, 255)">Color Game</span>
         </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarContent"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarContent">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="navbar-menu">
-            <!-- Qui verranno inseriti dinamicamente i link -->
-          </ul>
-        </div>
+        <div id="headerMenu" class="navbar-nav ms-auto mb-2 mb-lg-0"></div>
       </div>
     </nav>
 
-    <div
-      style="
-        max-width: 1920px;
-        margin: auto;
-        padding-top: 7rem;
-        text-align: center;
-      "
-      class="testobianco fadeup"
-    >
+    <div style="max-width: 1920px; margin: auto; padding-top: 7rem; text-align: center" class="testobianco fadeup">
       <div class="container mt-5">
         <div class="profile-container text-center">
-          <img
-            id="profilePicture"
-            src="../img/default-profile.png"
-            class="rounded-circle"
-            width="150"
-            height="150"
-            alt="Foto Profilo"
-          />
+          <img id="profilePicture" src="../img/default-profile.png" class="rounded-circle" width="150" height="150" alt="Foto Profilo" />
           <h1 id="username">Caricamento...</h1>
-          <p>
-            <strong>ID Utente:</strong> <span id="userId">Caricamento...</span>
-          </p>
+          <p><strong>ID Utente:</strong> <span id="userId">Caricamento...</span></p>
 
           <div id="privateInfo" style="display: none">
             <p><strong>Nome:</strong> <span id="firstName"></span></p>
             <p><strong>Cognome:</strong> <span id="lastName"></span></p>
             <p><strong>Email:</strong> <span id="email"></span></p>
-            <p>
-              <strong>Data di nascita:</strong> <span id="birthDate"></span>
-            </p>
-            <button class="btn btn-primary" onclick="openEditPopup()">
-              Modifica Info
-            </button>
+            <p><strong>Data di nascita:</strong> <span id="birthDate"></span></p>
+            <button class="btn btn-primary" onclick="openEditPopup()">Modifica Info</button>
           </div>
         </div>
       </div>
@@ -100,90 +51,22 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Modifica Informazioni</h5>
-              <button
-                type="button"
-                class="btn-close"
-                onclick="closeEditPopup()"
-              ></button>
+              <button type="button" class="btn-close" onclick="closeEditPopup()"></button>
             </div>
             <div class="modal-body">
-              <input
-                type="text"
-                id="editFirstName"
-                class="form-control mb-2"
-                placeholder="Nome"
-              />
-              <input
-                type="text"
-                id="editLastName"
-                class="form-control mb-2"
-                placeholder="Cognome"
-              />
-              <input
-                type="email"
-                id="editEmail"
-                class="form-control mb-2"
-                placeholder="Email"
-              />
+              <input type="text" id="editFirstName" class="form-control mb-2" placeholder="Nome" />
+              <input type="text" id="editLastName" class="form-control mb-2" placeholder="Cognome" />
+              <input type="email" id="editEmail" class="form-control mb-2" placeholder="Email" />
               <input type="date" id="editBirthDate" class="form-control mb-2" />
             </div>
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                onclick="closeEditPopup()"
-              >
-                Chiudi
-              </button>
-              <button
-                type="button"
-                class="btn btn-primary"
-                onclick="saveProfileChanges()"
-              >
-                Salva
-              </button>
+              <button type="button" class="btn btn-secondary" onclick="closeEditPopup()">Chiudi</button>
+              <button type="button" class="btn btn-primary" onclick="saveProfileChanges()">Salva</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const navbarMenu = document.getElementById("navbar-menu");
-        const username = sessionStorage.getItem("username");
-        const isAdmin = sessionStorage.getItem("tipo") === "admin";
-        const profilePic =
-          sessionStorage.getItem("fotoProfilo") || "../img/default-profile.png";
-
-        if (username) {
-          navbarMenu.innerHTML = `
-                  <div class="dropdown">
-                      <button class="btn btn-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown">
-                          <img src="${profilePic}" alt="Profilo" class="rounded-circle" width="40" height="40">
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-end">
-                          <li><a class="dropdown-item" href="profilo.html">Profilo</a></li>
-                          <li><a class="dropdown-item" href="gioco.html">Gioco</a></li>
-                          <li><a class="dropdown-item" href="how-to-play.html">Come si gioca</a></li>
-                          ${
-                            isAdmin
-                              ? '<li><a class="dropdown-item" href="admin-panel.html">Pannello Admin</a></li>'
-                              : ""
-                          }
-                          <li><hr class="dropdown-divider"></li>
-                          <li><a class="dropdown-item text-danger" href="#" onclick="Auth.logout()">Log Out</a></li>
-                      </ul>
-                  </div>
-              `;
-        } else {
-          navbarMenu.innerHTML = `
-                  <li class="nav-item"><a class="nav-link" href="accedi.html">Accedi</a></li>
-                  <li class="nav-item"><a class="nav-link" href="registrati.html">Registrati</a></li>
-              `;
-        }
-      });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </body>
   <footer class="my-5 pt-5 text-muted text-center text-small fadeup">
     <p class="mb-1 testobianco">Copyright © 2025. Tutti i diritti riservati.</p>

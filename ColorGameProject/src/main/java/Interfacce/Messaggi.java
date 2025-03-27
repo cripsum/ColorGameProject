@@ -27,4 +27,5 @@ public interface Messaggi {
 	public static final String SUCCESSO_MODIFICHE_EFFETTUATE = "Modifiche effettuate";
 	public static final String SUCCESSO_LOGIN = "Login effettuato";
 	public static final String ERRORE_CLASSIFICA_VUOTA = "Classifica vuota";
+	public static final String SUCCESSO_VERIFICA = "Verifica effettuata";
 }

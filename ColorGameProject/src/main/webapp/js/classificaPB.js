@@ -36,7 +36,7 @@ function popolaTabella(classifica) {
             <td>${record.punteggio}</td>
         `;
         row.addEventListener("click", function () {
-            window.location.href = `profilo.html?idUtente=${record.id}`;
+            window.location.href = `profilo.html?idUtente=${record.idUtente}`;  
         });
 
         tbody.appendChild(row);

@@ -8,14 +8,15 @@ document.addEventListener("DOMContentLoaded", function () {
         profilePic = profilePicBlob;
     }
     if (username) {
+        const idUtente = sessionStorage.getItem("idUtente");
         navbarMenu.innerHTML = `
                   <div class="dropdown">
                       <button class="btn btn-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown">
                           <img src="${profilePic}" alt="Profilo" class="rounded-circle" width="40" height="40">
                	       </button>
                       <ul class="dropdown-menu dropdown-menu-end">
-                          <li><a class="dropdown-item" href="profilo.html">Profilo</a></li>
-                          <li><a class="dropdown-item" href="gioco.html">Gioco</a></li>
+                          <li><a class="dropdown-item" href="profilo.html?idUtente=${idUtente}">Profilo</a></li>
+                          <li><a class="dropdown-item" href="game.html">Gioco</a></li>
                           <li><a class="dropdown-item" href="">Come si gioca</a></li>
                           ${isAdmin ? '<li><a class="dropdown-item" href="admin-panel.html">Pannello Admin</a></li>' : ""}
                           <li><hr class="dropdown-divider"></li>

@@ -23,7 +23,7 @@ const Auth = (function () {
                 sessionStorage.setItem("tipo", data.tipoUtente);
                 sessionStorage.setItem("token", data.token);
                 sessionStorage.setItem("fotoProfilo", data.fotoProfilo);
-                window.location.href = "ColorGameProject/pagine/game.html";
+                window.location.href = "/game.html";
                 return true;
             } else {
                 alert(data.messaggio);
@@ -78,7 +78,7 @@ const Auth = (function () {
             }
     
             const response = await fetch(`${API_URL}/check`, {
-                method: "POST",
+                method: "GET",
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
@@ -86,23 +86,23 @@ const Auth = (function () {
                 }
             });
     
+            const data = await response.json(); 
+    
             if (!response.ok) {
-                console.log(response.json().messaggio);
-                sessionStorage.clear();
-            } else {
-                console.log("Sessione valida.");
+                console.log(data.messaggio);
             }
+            console.log("Sessione valida");
         } catch (error) {
             console.error("Errore durante il controllo della sessione:", error);
-            sessionStorage.clear();
         }
     }
+    
         
 
     async function logout() {
         try {
             sessionStorage.clear();
-            window.location.href = "ColorGameProject/pagine/home.html";
+            window.location.href = "home.html";
         } catch (error) {
             console.error("Errore durante il logout:", error);
         }
