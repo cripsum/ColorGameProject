@@ -37,6 +37,7 @@ public abstract class JwtToken implements Interfacce.Messaggi, Interfacce.NomiPa
 
 			return a;
 		} catch (JWTVerificationException e) {
+			System.out.println(e.getMessage());
 			return null;
 		}
 	}

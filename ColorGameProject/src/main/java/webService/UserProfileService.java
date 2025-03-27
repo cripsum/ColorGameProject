@@ -36,13 +36,11 @@ public class UserProfileService implements Messaggi, NomiParametri {
 				obj.addProperty(DATA_NASCITA, a.getDataNascita().toString());
 				obj.addProperty(FOTO_PROFILO, Strumenti.fotoProfiloToBase64(a.getFotoProfilo()));
 				obj.addProperty(EMAIL, a.getEmail());
-				return Response.status(Response.Status.OK).entity(obj).build();
+				return Response.status(Response.Status.OK).entity(obj.toString()).build();
 			}
-			return Response.status(Response.Status.NOT_FOUND)
-					.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_UTENTE_NON_TROVATO)).build();
+			return Response.status(Response.Status.NOT_FOUND).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_UTENTE_NON_TROVATO)).build();
 		}catch (Exception e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_GENERICO + " " + e.getMessage())).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_GENERICO + " " + e.getMessage())).build();
 		}
 		
 	}
