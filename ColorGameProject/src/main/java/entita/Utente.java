@@ -110,12 +110,15 @@ public class Utente implements NomiParametri, Messaggi {
 			pstmt.setString(5, password);
 			pstmt.setString(6, email);
 			pstmt.setString(7, dataNascita);
-			InputStream is = Utente.class.getClassLoader().getResourceAsStream("img/fotoProfiloDefault.jpg");
-			if (is != null) {
-			    pstmt.setBinaryStream(8, is, is.available());
-			} else {
-			    pstmt.setBytes(8, new byte[0]);
-			}
+	        try (InputStream is = Utente.class.getResourceAsStream("/img/fotoProfiloDefault.png")) {
+	            if (is != null) {
+	                Blob fotoProfilo = conn.createBlob();
+	                fotoProfilo.setBytes(1, is.readAllBytes());
+	                pstmt.setBlob(8, fotoProfilo);
+	            } else {
+	                throw new Exception("Default profile picture not found");
+	            }
+	        }
 			pstmt.setString(9, "utente");
 			pstmt.executeUpdate();
 			return true;

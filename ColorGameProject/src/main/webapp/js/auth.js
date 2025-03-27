@@ -14,7 +14,7 @@ const Auth = (function () {
                 body: JSON.stringify({ email, password })
             });
             const data = await response.json();
-
+            console.log(data);
             if (response.ok) {
                 sessionStorage.setItem("idUtente", data.idUtente);
                 sessionStorage.setItem("username", data.username);
@@ -25,7 +25,7 @@ const Auth = (function () {
                 sessionStorage.setItem("tipo", data.tipoUtente);
                 sessionStorage.setItem("token", data.token);
                 sessionStorage.setItem("fotoProfilo", data.fotoProfilo);
-                window.location.href = "ColorGameProject/pagine/game.html";
+                //window.location.href = "ColorGameProject/pagine/game.html";
                 return true;
             } else {
                 alert(data.messaggio);

@@ -3,20 +3,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const username = sessionStorage.getItem("username");
     const isAdmin = sessionStorage.getItem("tipo") === "admin";
     const profilePicBlob = sessionStorage.getItem("fotoProfilo");
-    let profilePic;
+    let profilePic="../img/default-profile.png";
+    console.log("profilePicBlob:", profilePicBlob);
     if (profilePicBlob) {
-        const blob = new Blob([new Uint8Array(profilePicBlob)], { type: 'image/jpeg' });
-        profilePic = URL.createObjectURL(blob);
-    } else {
-        profilePic = "../img/default-profile.png";
+        profilePic = profilePicBlob;
     }
-    profilePic = "../img/default-profile.png";
     if (username) {
         navbarMenu.innerHTML = `
                   <div class="dropdown">
                       <button class="btn btn-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown">
                           <img src="${profilePic}" alt="Profilo" class="rounded-circle" width="40" height="40">
-                      </button>
+               	       </button>
                       <ul class="dropdown-menu dropdown-menu-end">
                           <li><a class="dropdown-item" href="profilo.html">Profilo</a></li>
                           <li><a class="dropdown-item" href="gioco.html">Gioco</a></li>

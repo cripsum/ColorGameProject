@@ -1,10 +1,14 @@
 package strumenti;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 import Interfacce.Messaggi;
@@ -64,7 +68,24 @@ public abstract class Strumenti implements NomiParametri, Messaggi {
 			}
 		}
 		return classifica;
+	}	
+	
+	public static String fotoProfiloToBase64(Blob fotoProfilo) {
+        if (fotoProfilo == null) {
+            return null;
+        }
+        try (InputStream is = fotoProfilo.getBinaryStream();
+             ByteArrayOutputStream os = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = is.read(buffer)) != -1) {
+                os.write(buffer, 0, bytesRead);
+            }
+            System.out.println("data:image/png;base64," + Base64.getEncoder().encodeToString(os.toByteArray()));
+            return "data:image/png;base64," + Base64.getEncoder().encodeToString(os.toByteArray());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 	}
-	
-	
 }

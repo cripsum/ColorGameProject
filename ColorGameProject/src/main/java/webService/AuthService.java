@@ -33,19 +33,20 @@ public class AuthService implements NomiParametri, Messaggi {
 					if (a.isUtenteBannato()) {
 						return Response.status(Response.Status.FORBIDDEN).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_UTENTE_BANNATO)).build();
 					}
-					HttpSession session = request.getSession(true);
-					session.setAttribute(IDUTENTE, a.getIdUtente());
-					session.setAttribute(USERNAME, a.getUsername());
-					session.setAttribute(NOME, a.getNome());
-					session.setAttribute(COGNOME, a.getCognome());
-					session.setAttribute(EMAIL, a.getEmail());
-					session.setAttribute(DATA_NASCITA, a.getDataNascita());
-					session.setAttribute(FOTO_PROFILO, a.getFotoProfilo());
-					session.setAttribute(UTENTE_BANNATO, a.isUtenteBannato());
-					session.setAttribute(TIPOUTENTE, a.getTipo());
-					session.setAttribute(TOKEN, JwtToken.generateToken(a.getIdUtente(), a.getTipo(), a.getDataRegistrazione().toString()));
-					
-					return Response.ok(Strumenti.messaggioSempliceJSON(MESSAGGIO, SUCCESSO_LOGIN)).build();
+
+					JsonObject json = new JsonObject();
+					json.addProperty(IDUTENTE, a.getIdUtente());
+					json.addProperty(USERNAME, a.getUsername());
+					json.addProperty(NOME, a.getNome());
+					json.addProperty(COGNOME, a.getCognome());
+					json.addProperty(EMAIL, a.getEmail());
+					json.addProperty(DATA_NASCITA, a.getDataNascita().toString());
+					json.addProperty(FOTO_PROFILO, Strumenti.fotoProfiloToBase64(a.getFotoProfilo()));
+					json.addProperty(UTENTE_BANNATO, a.isUtenteBannato());
+					json.addProperty(TIPOUTENTE, a.getTipo());
+					json.addProperty(TOKEN, JwtToken.generateToken(a.getIdUtente(), a.getTipo(), a.getDataRegistrazione().toString()));
+					json.addProperty(MESSAGGIO, SUCCESSO_LOGIN);
+					return Response.ok(json.toString()).build();
 				} else {
 					return Response.status(Response.Status.UNAUTHORIZED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_PASSWORD_SBAGLIATA)).build();
 				}
