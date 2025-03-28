@@ -42,7 +42,7 @@ public class Utente implements NomiParametri, Messaggi {
 		this.dataRegistrazione = dataRegistrazione;
 		this.fotoProfilo = fotoProfilo;
 		this.tipo = tipo;
-		this.utenteBannato = false;
+		this.utenteBannato = utenteBannato;
 	}
 
 	//metodi stastici

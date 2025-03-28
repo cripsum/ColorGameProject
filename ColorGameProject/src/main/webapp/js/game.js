@@ -35,9 +35,6 @@ function checkExistingGame() {
                 }
             }
             )
-
-
-
     } catch (error) {
         console.error("Errore:", error);
     }

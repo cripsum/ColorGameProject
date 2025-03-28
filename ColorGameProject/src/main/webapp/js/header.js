@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const navbarMenu = document.getElementById("headerMenu");
     const username = sessionStorage.getItem("username");
-    const isAdmin = sessionStorage.getItem("tipo") === "admin";
+    const isAdmin = (sessionStorage.getItem("tipo") || "").trim().toLowerCase() === "admin";
     const profilePicBlob = sessionStorage.getItem("fotoProfilo");
     let profilePic="../img/default-profile.png";
     if (profilePicBlob) {
@@ -17,8 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       <ul class="dropdown-menu dropdown-menu-end">
                           <li><a class="dropdown-item" href="profilo.html?idUtente=${idUtente}">Profilo</a></li>
                           <li><a class="dropdown-item" href="game.html">Gioco</a></li>
-                          <li><a class="dropdown-item" href="">Come si gioca</a></li>
-                          ${isAdmin ? '<li><a class="dropdown-item" href="admin-panel.html">Pannello Admin</a></li>' : ""}
+                          ${isAdmin ? '<li><a class="dropdown-item" href="admin.html">Pannello Admin</a></li>' : ""}
                           <li><hr class="dropdown-divider"></li>
                           <li><a class="dropdown-item text-danger" onclick="Auth.logout()">Log Out</a></li>
                       </ul>

@@ -3,6 +3,8 @@ package webService;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.google.gson.Gson;
+
 import Interfacce.Messaggi;
 import Interfacce.NomiParametri;
 import entita.Utente;
@@ -11,6 +13,7 @@ import jakarta.ws.rs.core.*;
 import strumenti.JwtToken;
 import strumenti.JwtToken.Token;
 import strumenti.Strumenti;
+import strumenti.UtentePerAdmin;
 @Path("/admin")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -18,7 +21,7 @@ public class AdminService implements Messaggi, NomiParametri{
 
 	@POST
 	@Path("/addAdmin")
-	public Response addAdmin(List<String> utenteId, @Context HttpHeaders headers){
+	public Response addAdmin(String uId, @Context HttpHeaders headers){
 		Response verifica = JwtToken.verificaToken(headers);
 		String risposta_affermativa="";
 		String risposta_negativa="";
@@ -28,6 +31,8 @@ public class AdminService implements Messaggi, NomiParametri{
 		if (!tok.getRuolo().equals("admin")) {
 			return Response.status(Response.Status.UNAUTHORIZED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_NON_AUTORIZZATO)).build();
 		}
+		Gson gson = new Gson();
+		String[] utenteId = gson.fromJson(uId, String[].class);
 		for (String string : utenteId) {
 			try {
 				if(Utente.setTipo(string, "admin")) {
@@ -46,7 +51,7 @@ public class AdminService implements Messaggi, NomiParametri{
 	
 	@POST
 	@Path("/removeAdmin")
-	public Response removeAdmin(List<String> utenteId, @Context HttpHeaders headers){
+	public Response removeAdmin(String uId, @Context HttpHeaders headers){
 		Response verifica = JwtToken.verificaToken(headers);
 		String risposta_affermativa="";
 		String risposta_negativa="";
@@ -56,6 +61,8 @@ public class AdminService implements Messaggi, NomiParametri{
 		if (!tok.getRuolo().equals("admin")) {
 			return Response.status(Response.Status.UNAUTHORIZED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, null)).build();
 		}
+		Gson gson = new Gson();
+		String[] utenteId = gson.fromJson(uId, String[].class);
 		for (String string : utenteId) {
 			try {
 				if(Utente.setTipo(string, "utente")) {
@@ -74,7 +81,7 @@ public class AdminService implements Messaggi, NomiParametri{
 	
 	@POST
 	@Path("/banUser")
-	public Response banUser(List<String> utenteId, @Context HttpHeaders headers){
+	public Response banUser(String uId, @Context HttpHeaders headers){
 		Response verifica = JwtToken.verificaToken(headers);
 		String risposta_affermativa="";
 		String risposta_negativa="";
@@ -84,6 +91,8 @@ public class AdminService implements Messaggi, NomiParametri{
 		if (!tok.getRuolo().equals("admin")) {
 			return Response.status(Response.Status.UNAUTHORIZED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, null)).build();
 		}
+		Gson gson = new Gson();
+		String[] utenteId = gson.fromJson(uId, String[].class);
 		for (String string : utenteId) {
 			try {
 				if(Utente.setBannato(string, true)) {
@@ -102,7 +111,7 @@ public class AdminService implements Messaggi, NomiParametri{
 	
 	@POST
 	@Path("/unbanUser")
-	public Response unbanUser(List<String> utenteId, @Context HttpHeaders headers){
+	public Response unbanUser(String uId, @Context HttpHeaders headers){
 		Response verifica = JwtToken.verificaToken(headers);
 		String risposta_affermativa="";
 		String risposta_negativa="";
@@ -112,6 +121,8 @@ public class AdminService implements Messaggi, NomiParametri{
 		if (!tok.getRuolo().equals("admin")) {
 			return Response.status(Response.Status.UNAUTHORIZED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, null)).build();
 		}
+		Gson gson = new Gson();
+		String[] utenteId = gson.fromJson(uId, String[].class);
 		for (String string : utenteId) {
 			try {
 				if(Utente.setBannato(string, false)) {
@@ -126,6 +137,25 @@ public class AdminService implements Messaggi, NomiParametri{
 		}
 		String risposta = "Utenti sbannati: "+risposta_affermativa+"/nUtenti non sbannati: "+risposta_negativa;
 		return Response.ok().entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, risposta)).build();
+	}
+	
+	@GET
+	@Path("/getUsers")
+	public Response getUsers(@Context HttpHeaders headers){
+		Response verifica = JwtToken.verificaToken(headers);
+		if (verifica.getStatus() != 200)
+			return verifica;
+		Token tok = (Token) verifica.getEntity();
+		if (!tok.getRuolo().equals("admin")) {
+			return Response.status(Response.Status.UNAUTHORIZED).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, null)).build();
+		}
+		try {
+			List<UtentePerAdmin> utenti;
+			utenti = Strumenti.getUtenti();
+			return Response.ok().entity(new Gson().toJson(utenti).toString()).build();
+		} catch (SQLException e) {
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Strumenti.messaggioSempliceJSON(MESSAGGIO, ERRORE_SQL+" "+e.getMessage())).build();
+		}
 	}
 	
 }

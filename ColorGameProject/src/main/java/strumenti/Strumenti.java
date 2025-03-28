@@ -69,7 +69,22 @@ public abstract class Strumenti implements NomiParametri, Messaggi {
 			}
 		}
 		return classifica;
-	}	
+	}
+	
+	public static List<UtentePerAdmin> getUtenti() throws SQLException {
+		List<UtentePerAdmin> utenti = new ArrayList<UtentePerAdmin>();
+		String sqlQuery = "SELECT * FROM utente";
+		try (Connection conn = DBmanager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				utenti.add(new UtentePerAdmin(rs.getString(DB_IDUTENTE), rs.getString(DB_USERNAME), rs.getString(DB_PASSWORD),
+						rs.getString(DB_NOME), rs.getString(DB_COGNOME), rs.getString(DB_EMAIL),
+						rs.getDate(DB_DATA_NASCITA).toString(), rs.getTimestamp(DB_DATA_REGISTRAZIONE).toLocalDateTime().toString(),
+						Strumenti.fotoProfiloToBase64(rs.getBlob(DB_FOTO_PROFILO)), rs.getString(DB_TIPOUTENTE), rs.getBoolean(DB_UTENTE_BANNATO)));
+			}
+		}
+		return utenti;
+	}
 	
 	public static String fotoProfiloToBase64(Blob fotoProfilo) {
         if (fotoProfilo == null) {

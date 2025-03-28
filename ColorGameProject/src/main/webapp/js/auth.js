@@ -20,7 +20,7 @@ const Auth = (function () {
                 sessionStorage.setItem("nome", data.nome);
                 sessionStorage.setItem("cognome", data.cognome);
                 sessionStorage.setItem("dataNascita", data.dataNascita);
-                sessionStorage.setItem("tipo", data.tipoUtente);
+                sessionStorage.setItem("tipo", data.tipo);
                 sessionStorage.setItem("token", data.token);
                 sessionStorage.setItem("fotoProfilo", data.fotoProfilo);
                 window.location.href = "game.html";
