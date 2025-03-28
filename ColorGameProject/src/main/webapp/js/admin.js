@@ -72,7 +72,7 @@ function renderTable(utenti) {
         return;
     }
 
-    let html = `<table>
+    let html = `<table border="1" class="table table-dark table-striped center">
         <tr>
             <th>Seleziona</th>
             <th>ID</th>
@@ -97,7 +97,7 @@ function renderTable(utenti) {
             <td>${u.dataNascita || ''}</td>
             <td>${u.dataRegistrazione || ''}</td>
             <td>${u.tipo || ''}</td>
-            <td>${u.bannato ? 'SI' : 'NO'}</td>
+            <td>${u.utenteBannato ? 'SI' : 'NO'}</td>
         </tr>`;
     });
     html += "</table>";
