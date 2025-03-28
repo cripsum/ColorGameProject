@@ -30,14 +30,22 @@
         <div id="headerMenu" class="navbar-nav ms-auto mb-2 mb-lg-0"></div>
       </div>
     </nav>
-    <div style="max-width: 1920px; margin: auto; padding-top: 7rem" class="testobianco">
+    <div style="max-width: 1920px; margin: auto; padding-top: 7rem" class="testobianco text-center">
       <h1>Admin Panel</h1>
+
       
-      <button id="btnAddAdmin">➕ Promuovi a Admin</button>
-      <button id="btnRemoveAdmin">🔻 Declassa a Utente</button>
-      <button id="btnBanUser">🚫 Banna Utenti</button>
-      <button id="btnUnbanUser">✅ Sbanna Utenti</button>
-      <button id="btnRefresh">🔄 Ricarica Lista Utenti</button>
+      	<div class="button-container mb-3 fadeup">
+      	<button class="btn btn-secondary bottone" id="btnAddAdmin">➕ Promuovi a Admin</button>
+
+      	<button class="btn btn-secondary bottone" id="btnRemoveAdmin">🔻 Declassa a Utente</button>
+
+      	<button class="btn btn-secondary bottone" id="btnBanUser">🚫 Banna Utenti</button>
+
+      	<button class="btn btn-secondary bottone" id="btnUnbanUser">✅ Sbanna Utenti</button>
+
+      	<button class="btn btn-secondary bottone" id="btnRefresh">🔄 Ricarica Lista Utenti</button>
+      </div>
+      
       <div id="userTable"></div>
       <br>
       <div id="output"></div>

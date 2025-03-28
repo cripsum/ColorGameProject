@@ -10,16 +10,16 @@ document.addEventListener("DOMContentLoaded", function () {
     if (username) {
         const idUtente = sessionStorage.getItem("idUtente");
         navbarMenu.innerHTML = `
-                  <div class="dropdown">
+                  <div class="nav-item dropdown dropdownutenti" >
                       <button class="btn btn-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown">
                           <img src="${profilePic}" alt="Profilo" class="rounded-circle" width="40" height="40">
                	       </button>
-                      <ul class="dropdown-menu dropdown-menu-end">
+                      <ul class="dropdown-menu dropdown-menu-end animate slideIn" style="z-index: 1000">
                           <li><a class="dropdown-item" href="profilo.html?idUtente=${idUtente}">Profilo</a></li>
                           <li><a class="dropdown-item" href="game.html">Gioco</a></li>
                           ${isAdmin ? '<li><a class="dropdown-item" href="admin.html">Pannello Admin</a></li>' : ""}
                           <li><hr class="dropdown-divider"></li>
-                          <li><a class="dropdown-item text-danger" onclick="Auth.logout()">Log Out</a></li>
+                          <li><a class="dropdown-item text-danger" onclick="logout()">Log Out</a></li>
                       </ul>
                   </div>
               `;
@@ -29,4 +29,14 @@ document.addEventListener("DOMContentLoaded", function () {
                   <li class="nav-item"><a class="nav-link" href="registrati.html">Registrati</a></li>
               `;
     }
+	
 });
+
+async function logout() {
+        try {
+            sessionStorage.clear();
+            window.location.href = "home.html";
+        } catch (error) {
+            console.error("Errore durante il logout:", error);
+        }
+    }

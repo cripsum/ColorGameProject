@@ -23,6 +23,7 @@
         display: grid;
         grid-template-columns: repeat(5, 50px);
         grid-gap: 10px;
+        justify-content: center;
       }
       .grid-cell {
         width: 50px;
@@ -47,13 +48,17 @@
     </nav>
     <div style="max-width: 1920px; margin: auto; padding-top: 7rem" class="testobianco">
       <div class="loginpagege text-center mt-5">
-        <div class="game-container">
+        <div class="game-container container-fluid" style="margin: auto; text-align:center;">
           <h1>Color Picker</h1>
           <div id="grid" class="color-grid center"></div>
           <div id="result"></div>
           <p>Punteggio: <span id="score">0</span></p>
-          <button id="createGameBtn" class="hidden">Create New Game</button>
-          <button id="continueGameBtn" class="hidden">Continue Game</button>
+                    <div class="button-container mb-3 fadeup" style="text-align: center; margin-top: 3%">
+                <button class="btn btn-secondary bottone" id="createGameBtn" class="hidden">Nuova partita</button>
+              </div>
+          <div class="button-container mb-3 fadeup" style="text-align: center; margin-top: 3%">
+                <button class="btn btn-secondary bottone" id="continueGameBtn" class="hidden">Riprendi partita</button>
+              </div>
         </div>
       </div>
     </div>

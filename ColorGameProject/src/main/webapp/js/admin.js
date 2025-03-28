@@ -72,7 +72,7 @@ function renderTable(utenti) {
         return;
     }
 
-    let html = `<table border="1" class="table table-dark table-striped center">
+    let html = `<table border="1" class="table table-dark table-striped center" style="max-width: 80%; margin: auto;">
         <tr>
             <th>Seleziona</th>
             <th>ID</th>

@@ -10,7 +10,7 @@ public class TurnoPartita {
 	private Color coloreDiverso;
 
 	public TurnoPartita(int punteggio) {
-			this.dimGriglia = 1+(punteggio+1)%4+(punteggio)/10;
+			this.dimGriglia = (punteggio>2?4:1+(punteggio+1)%4)+(punteggio)/10;
 			this.colore = randColor();
 			this.coloreDiverso = randColorDiverso(colore, punteggio);
 			this.corX = (int)(Math.random()*dimGriglia);
@@ -29,7 +29,7 @@ public class TurnoPartita {
 		int g = colore.getGreen();
 		int b = colore.getBlue();
 
-		int adjustment = Math.max(1, 10 - punteggio);
+		int adjustment = Math.max(15, 20 - punteggio);
 
 		r = (r + (int) (Math.random() * adjustment * 2) - adjustment) % 256;
 		g = (g + (int) (Math.random() * adjustment * 2) - adjustment) % 256;
